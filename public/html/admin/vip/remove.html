@@ -1,0 +1,125 @@
+  <div style="margin-top:30px">
+<section id="userRemoveAdminSection">
+    <form action="/admin/vip/remove" method="post" accept-charset="utf-8" onsubmit="return confirm('Are You Sure want to remove this plan')" class="col-12">
+      <div class="removeAdminInpBack">
+        <div class="col-10 col-md-5">
+            <label for="id">Enter User Id</label>
+            <input type="number" name="id" id="userid" placeholder="Enter User Id" required="" class="col-10 form-control border-primary"/>
+        </div>
+        <div class="col-10 col-md-5">
+          <label for="name" >User Name</label>
+          <input type="text" name="name" id="username" placeholder="User Name" class="col-10 form-control border-primary" readonly=""/>
+        </div>
+      </div>
+      <div class="removeAdminInpBack">
+        <div class="col-10 col-md-5">
+          <label for="plans">Select Plans</label>
+          <select name="plans" id="plans" multiple="true" class="col-10 form-control border-primary" required></select>
+        </div>
+      </div>
+      <div class="removeAdminInpBack">
+        <button type="submit" class="btn btn-danger col-5 col-md-2 mt-3">Remove User</button>
+      </div>
+    </form>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+    loading("",true)
+    
+    $("#userid").blur(async()=>{
+    try{
+      var id=$("#userid").val()
+      if(!id||!id.replace(/ /g,"").length) return toast("Enter User Id","error");
+      loading("body");
+      var res=await $.ajax("/admin/vip/getData?id="+id)
+      loading("",true)
+      if(!res.sts)return toast(res.err,"error")
+      $("#username").val(`${(res.user.first_name||"")} ${res.user.last_name||""}`)
+      var html=""
+      if(res.data.addon)html+=`<option>addon</option>`
+      if(res.data.normal)html+=`<option>normal</option>`
+      $("#plans").html(html)
+      
+    }catch(e){
+      loading("",true)
+      console.log(e);
+      return toast("unexpected error occured","error")
+    }
+    })
+    $("#plans").click(()=>{
+      if(!(($("#plans").html()).replace(/\r\n|\n|\r| /g,"").length))toast("First Enter The User Id","error")
+    })
+  </script>
+  <style type="text/css" media="all">
+    
+    
+    .removeAdminInpBack label{
+      color: #f1c2e3;
+      
+      margin-top: 15px;
+      margin-bottom: 10px;
+      
+      font-family: Courier New;
+      font-weight: bold;
+    }
+    .removeAdminInpBack input,.removeAdminInpBack select{
+      background: none;
+      
+      color: white;
+      
+      font-family: Courier New;
+      font-weight: 500;
+      
+      letter-spacing: -1px;
+      
+      text-align: center;
+    }
+    .removeAdminInpBack input[readonly]{
+      background: none;
+    }
+    .removeAdminInpBack input:focus,.removeAdminInpBack select:focus{
+      background: none;
+      
+      color: white;
+    }
+    .removeAdminInpBack input::placeholder{
+      color: white;
+    }
+  </style>
+  <style type="text/css" media="screen and (min-width:721px)">
+    .removeAdminInpBack>div{
+      display: flex;
+      
+      flex-direction: column;
+      
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .removeAdminInpBack{
+      display: flex;
+      
+      justify-content: center;
+    }
+    
+  </style>
+  <style type="text/css" media="screen and (max-width:720px)">
+    .removeAdminInpBack>div{
+      display: flex;
+      
+      flex-direction: column;
+      
+      position: relative;
+      
+      left: 50%;
+      
+      transform: translate(-50%);
+      
+    }
+    .removeAdminInpBack>button[type=submit]{
+      position: relative;
+      
+      left: 50%;
+      
+      transform: translate(-50%);
+    }
+  </style>
+</section>

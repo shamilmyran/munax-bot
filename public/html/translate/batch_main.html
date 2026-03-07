@@ -1,0 +1,251 @@
+<section id="batchTransSec" class="skiptranslate">
+  
+</section>
+<script type="text/javascript" charset="utf-8">
+  let removable_btn=false
+  async function start_tr_process(id){
+    if(!removable_btn)on_removable_btn()
+    if(REQ_LIM.reqs>8){
+      await sleep(REQ_LIM.wait())
+      start_tr_process(id)
+      return
+    }
+    REQ_LIM.addOne()
+    $.ajax({
+      url:"batch/download",
+      type:"get",
+      dataType:"json",
+      data:{id,user:USER.id},
+      xhr:()=>{
+        let xhr=new window.XMLHttpRequest()
+        
+        xhr.addEventListener("progress",(evt)=>{
+          if(!evt.lengthComputable)return
+          
+          let perc=Math.round(evt.loaded/evt.total*100)
+          let mPerce=perc/100*25
+          let stroke=126-(mPerce*126/100),
+          oldPerce=Number($(`div[fileid=${id}] .tr_prog_text`).text().replace("%","")),
+          perceDiff=perc - oldPerce
+          
+          $(`div[fileid=${id}] .tr_prog_text`).text(perc+"%")
+          $(`div[fileid=${id}] .tr_prog`).animate({"width":perc+"%"},200)
+          $(`div[fileid=${id}] circle`).animate({"stroke-dashoffset":stroke},200)
+          
+        },false)
+        
+        return xhr
+      },
+      success:(res)=>{
+        if(!res.sts)return tg_alert("Something went wrong")
+        
+        $(`div[fileid=${id}]`).attr("order",res.id)
+        $(`div[fileid=${id}]`).attr("qlty",res.qlty)
+        $(`div[fileid=${id}] .tr_prog_text`).text("100%")
+        $(`div[fileid=${id}] .tr_prog`).animate({width:"100%"},200,"linear")
+        $(`div[fileid=${id}] circle`).animate({"stroke-dashoffset":126-31.5},200,"linear")
+        
+       res.id=id
+       
+       TRANSED_TEXT[id]={}
+       TRANS_TEXT.push(res)
+        
+        if(!TR_STS)return START_TRANS_LOOP()
+        
+        /*let html=data.reduce((t,c,i)=>{
+          return t+`<div class="translate" ind="${i}">${c}</div>`
+        },'')
+        $("#transElmSec").append(`<div fileid="${id}" inds="${dtArrLen}">${html}</div>`)
+        
+        START_TRANS(id)
+        return*/
+      }
+    })
+  }
+  
+  function on_removable_btn(){
+    removable_btn=true
+    $("#batchTransSec i.fa-xmark").on("click",async(e)=>{
+      if(!await tg_prompt("Are you really want to remove this translation request<br><b>You can't restore this file once you choose yes</b>"))return
+      e=$(e.currentTarget).parent().parent().parent()
+      let fileid=e.attr("fileid"),
+      cur=e.attr("translate")
+      $(`div[fileid=${fileid}]`).map((i,e)=>{
+        TRANS_TEXT=TRANS_TEXT.filter(x=>x.id!=fileid)
+        delete TRANSED_TEXT[fileid]
+        SUB_SUCCESS(fileid)
+        $(e).animate({width:"0px", opacity:0},300,"linear",()=>$(e).remove())
+        if(cur)START_TRANS_LOOP()
+      })
+    })
+  }
+</script>
+
+<style type="text/css" media="all">
+  
+  #batchTransSec>div>div:last-child>div:last-child>div:nth-child(3)>span{
+    color: var(--tg_grey);
+    
+    font-size: 90%;
+    font-weight: bold;
+    
+    text-transform: lowercase;
+  }
+  #batchTransSec>div>div:last-child>div:last-child>div:nth-child(3){
+    display: flex;
+    
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    
+    width: 100%;
+    height: calc(100% - (50% + 20px));
+  }
+  #batchTransSec>div>div:last-child>div:last-child>div:nth-child(2)>span{
+    color: var(--tg_text);
+  }
+  #batchTransSec>div>div:last-child>div:last-child>div:nth-child(2){
+    height: 30%;
+    width: 100%;
+    margin-top: 5px;
+    
+    display: flex;
+    
+    align-items: center;
+    justify-content: space-around;
+  }
+  #batchTransSec>div>div:last-child>div:last-child>span{
+    max-width: 100%;
+    height: 20%;
+    
+    margin-top: 15px;
+    
+    display: flex;
+    
+    justify-content: flex-start;
+    
+    position: relative;
+    
+    color: var(--tg_text);
+    
+    font-size: 16px;
+    
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  #batchTransSec>div>div:last-child>div:last-child{
+    width: 75%;
+    height: 100%;
+  }
+  #batchTransSec>div>div:last-child>div:first-child>svg{
+    animation: rotsvg 2s infinite linear;
+  }
+  #batchTransSec>div>div:last-child>div:first-child>svg>circle{
+    fill: none;
+    
+    stroke: var(--tg_btn_txt);
+    stroke-dasharray: 126;
+    stroke-dashoffset: 124;
+    stroke-width: 3.5px;
+    stroke-linecap: round;
+  }
+  #batchTransSec>div>div:last-child>div:first-child{
+    width: 25%;
+    height: 100%;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  #batchTransSec>div>div:last-child{
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    
+    z-index: 2;
+  }
+  :root{
+    --tr_prog_green: #31a05888;
+    --tr_prog_red: #d50c3388;
+    --tr_prog_blue:#1f59ae60;
+  }
+  @keyframes glow_prog{
+    20%{
+      opacity: 1;
+    }
+    60%{
+      opacity: 1;
+    }
+    100%{
+      left:calc(100% - 50px);
+      
+      width: 50px;
+      
+      opacity: 0;
+    }
+  }
+  #batchTransSec>div>div:first-child>div{
+    width: 30px;
+    height: 100%;
+    
+    position: relative;
+    
+    left: 0%;
+    
+    opacity: .5;
+    
+    background: linear-gradient(to right,rgba(255,255,255,0)10%,#ffffff22 50%,rgba(255,255,255,0));
+    
+    animation: glow_prog 1.5s infinite;
+  }
+  #batchTransSec>div>div:first-child{
+    position: absolute;
+    
+    width: 0%;
+    height: 100%;
+    
+    border-radius: 4px;
+    
+    background: var(--tr_prog_green);
+    
+    z-index: -1;
+  }
+  #batchTransSec>div{
+    position: relative;
+    width: 100%;
+    height: 90px;
+    
+    border: solid 1.5px var(--tg_btn_color);
+    border-radius: 5px;
+    
+    margin-top: 5px;
+  }
+  #batchTransSec{
+    position: fixed;
+    
+    left: 5%;
+    right: 5%;
+    top: 5%;
+    bottom: 5%;
+    
+    background: var(--tg_bg_shade);
+    
+    border-radius: 5px;
+    
+    font-family: Regular;
+    
+    overflow-y: scroll;
+    
+    padding: 5px;
+  }
+</style>
+
+<footer id="trfoot">
+  
+</footer>
+
+<script type="text/javascript">
+  $("#trfoot")[0].scrollIntoView({behavior:"instant"})
+</script>

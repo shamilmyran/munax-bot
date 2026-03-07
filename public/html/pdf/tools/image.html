@@ -1,0 +1,223 @@
+<div id="{{id}}" class="def_img_continer pdf_elements">
+  <div class="main_element">
+    <div hidden="">
+      <img src="" alt="image-{{id}}" />
+    </div>
+    <div >
+      <div class="btn_active_tg btn_opacity">
+        <i class="fa-solid fa-plus fa-xl" hint="Add image from your <b>local disk</b>"></i>
+      </div>
+      <div class="btn_active_tg btn_opacity">
+        <i class="fa-brands fa-telegram fa-xl" hint="Add image from <b>Telegram</b> , You can add multiple images by this method"></i>
+      </div>
+      <input type="file" name="input_image" accept="image/*" hidden/>
+    </div>
+    <div hidden="">
+      <div>
+        <img src="" alt="thumb image" />
+      </div>
+      <div>
+        <svg>
+          <circle cx="25" cy="25" r="20"></circle>
+        </svg>
+        <div>
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+  
+    CURRENT_ELM={
+      id:"{{id}}",
+      x:0,
+      y:0,
+      w:150,
+      h:150,
+      submit:()=>{
+        if(!$(`img[alt="image-{{id}}"]`).attr("src")){
+          CURRENT_ELM.err="Image is not loaded/or selected"
+          return false
+        }
+        return true
+      }
+    }
+    $("#{{id}}").css({"z-index":element_editor.z_ind+1})
+    $("#{{id}}>div:first-child>div:nth-child(2)>div:first-child").click(()=>{
+      $("#{{id}} input[name=input_image]").click()
+    })
+    $("#{{id}} input[name=input_image]").change((e)=>{
+      fullscreen()
+      let filename=($(e.currentTarget).val()||"").split("/").pop().toLowerCase()
+      if(!filename)return tg_alert("please select a file")
+      if(!["jpg","png","svg","jpeg"].includes(filename.split(".").pop()))return tg_alert("we found that you are selected a non supported format\nPlease convert the image to any of these formats {jpg,png,svg}")
+      if($(e.currentTarget)[0].files[0].size>10*1024*1024)return tg_alert("Sorry , but currently we only support files less than 10MB")
+ 
+      
+      let reader=new FileReader()
+      reader.readAsDataURL($(e.currentTarget)[0].files[0])
+      reader.onload=e=>{
+        $("#{{id}}>div:first-child>div:nth-child(3) img").attr("src",e.target.result)
+        $("#{{id}}>div:first-child>div:nth-child(2)").hide()
+        $("#{{id}}>div:first-child>div:nth-child(3)").removeAttr("hidden")
+        show_controls()
+      }
+      
+      let file=new FormData()
+      file.append("image",$(e.currentTarget)[0].files[0])
+      file.append("user",USER.id)
+      
+      $.ajax({
+        url:"/pdf/upload/image",
+        type:"post",
+        data:file,
+        processData:false,
+        contentType:false,
+        xhr:()=>{
+          const xhr=new window.XMLHttpRequest()
+          xhr.upload.addEventListener("progress",prog=>{
+            if(prog.lengthComputable){
+              let dashoffset=126-(126*(prog.loaded/prog.total))
+              $("#{{id}}>div:first-child>div:nth-child(3)>div:nth-child(2)>svg>circle").css({"stroke-dashoffset":dashoffset})
+              return
+            }
+          })
+          return xhr
+        },
+        success:url=>{
+          if(!url)return
+          $("#{{id}}>div:first-child>div:nth-child(3)").remove()
+          $("#{{id}}>div:first-child>div:nth-child(2)").remove()
+          $("#{{id}}>div:first-child>div:first-child>img").attr("src",url)
+          $("#{{id}}>div:first-child>div:first-child").removeAttr("hidden")
+        },
+        error:console.log
+      })
+      
+    })
+  </script>
+  </div>
+  <style type="text/css" media="all">
+    
+    
+    #{{id}}>div:first-child>div:first-child>img{
+      max-height: 100%;
+      max-width: 100%;
+    }
+    #{{id}}>div:first-child>div:first-child{
+      position: relative;
+      
+      width: 100%;
+      height: 100%;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+    }
+    #{{id}}>div:first-child>div:nth-child(3)>div:nth-child(2)>div{
+      position: absolute;
+      
+      width: 50px;
+      height: 50px;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      
+      font-size: 25px;
+      color: white;
+    }
+    #{{id}}>div:first-child>div:nth-child(3)>div:nth-child(2)>svg>circle{
+      fill: var(--tg_btn_color);
+      
+      stroke-width: 3px;
+      stroke: white;
+      stroke-dasharray: 126;
+      stroke-dashoffset: 126;
+      stroke-linecap: round;
+    }
+    #{{id}}>div:first-child>div:nth-child(3)>div:nth-child(2)>svg{
+      width: 50px;
+      height: 50px;
+      
+      position: absolute;
+      
+      animation: rotsvg 1s infinite linear;
+    }
+    #{{id}}>div:first-child>div:nth-child(3)>div:nth-child(2){
+      position: absolute;
+      
+      width: 100%;
+      height: 100%;
+      
+      background: #221f4369;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+    }
+    #{{id}}>div:first-child>div:nth-child(3)>div>img{
+      max-width: 100%;
+      max-height: 100%;
+      
+      filter: blur(1px);
+    }
+    #{{id}}>div:first-child>div:nth-child(3)>div:first-child{
+      position: absolute;
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      
+      width: 100%;
+      height: 100%;
+    }
+    #{{id}}>div:first-child>div:nth-child(3){
+      position: absolute;
+      
+      width: 100%;
+      height: 100%;
+    }
+    #{{id}}>div:first-child>div:nth-child(2)>div>i{
+      font-size: 30px;
+      
+      color: #1d1932c8;
+    }
+    #{{id}}>div:first-child>div:nth-child(2)>div{
+      width: 50%;
+      height: 100%;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      
+      border-right: solid .5px black;
+    }
+    #{{id}}>div:first-child>div:nth-child(2){
+      position: absolute;
+      
+      width: 100%;
+      height: 100%;
+      
+      background: #30324232;
+      
+      display: flex;
+    }
+    #{{id}}>div:first-child{
+      width: calc(100% - 5px);
+      height: calc(100% - 5px);
+      
+      position: relative;
+      
+      left: 50%;
+      top: 50%;
+      
+      transform: translate(-50%,-50%);
+    }
+  </style>
+  
+  

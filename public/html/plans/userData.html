@@ -1,0 +1,333 @@
+<section id="userDataSection" class="col-11 col-md-6">
+  <div id="userDataHeddPart">
+    <div id="userDataCloseBtn">
+      <i class="fa fa-times-circle text-danger" style="font-size:20px"></i>
+    </div>
+    <h6 id="userDataHedd">IS THIS INFORMATIONS ABOUT YOU?</h6>
+  </div>
+  <div style="display:flex; justify-content:center;text-align:center;margin-top:5px;align-items:center">
+    <div class="col-3" style="justify-content:center;display:flex;text-align:center">
+      {{#if small_file_id}}
+      <div id="userProfileCrop">
+        <img id="userProfile" alt="User Profile Photo" hidden="true" src="/images/icon.png">
+      </div>
+      {{/if}}
+    </div>
+    <div class="col-9">
+      <label id="userNameLabel">{{#if first_name}}{{first_name}}{{/if}} {{#if last_name}}{{last_name}}{{/if}}</label>
+    </div>
+  </div>
+  <div id="userDataPart" style="margin-top:20px">
+    <div class="userDataDiv">
+      <div class="col-3">
+        <label for="username">Username</label>
+      </div>
+      :
+      <div class="col-9">
+        <input type="text" name="username" id="username" value="{{#if username}}{{username}}{{/if}}" readonly="true" />
+      </div>
+    </div>
+    <div class="userDataDiv">
+      <div class="col-3">
+        <label for="name">Name</label>
+      </div>
+      :
+      <div class="col-9">
+        <input type="text" name="name" id="name" value="{{#if first_name}}{{first_name}}{{/if}} {{#if last_name}}{{last_name}}{{/if}}" readonly="true" />
+      </div>
+    </div>
+    <div class="userDataDiv">
+      <div class="col-3">
+        <label for="bio">Bio</label>
+      </div>
+      :
+      <div class="col-9">
+        <input type="text" name="bio" id="bio" value="{{#if bio}}{{bio}}{{/if}}" readonly="true" />
+      </div>
+    </div>
+    <div class="userDataDiv">
+      <div class="col-3">
+        <label for="userId">User Id</label>
+      </div>
+      :
+      <div class="col-9">
+        <input type="text" name="userId" id="userId" value="{{id}}" readonly="true" />
+      </div>
+    </div>
+  </div>
+  <div id="userDataConfirmPart">
+    <button id="confirmYes" class="btn btn-success">Yes,it is</button>
+    <button id="confirmNo" class="btn btn-danger">No,it is not</button>
+  </div>
+
+<style>
+
+
+  #confirmYes {
+    margin-right: 20px;
+  }
+  #userDataConfirmPart {
+    width: 100%;
+    height: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .userDataDiv div input {
+    background: none;
+
+    border: solid 1.5px #ee1a7a;
+    border-radius: 8px;
+
+    width: 80%;
+    height: 35px;
+
+    outline: none;
+
+    color: white;
+
+    font-family: Courier New;
+    font-weight: bold;
+
+    text-align: center;
+  }
+  .userDataDiv div label {
+    color: white;
+
+    font-family: Courier;
+    font-weight: bold;
+  }
+  .userDataDiv {
+    display: flex;
+
+    color: white;
+
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+
+    margin-top: 10px;
+  }
+  #userDataCloseBtn {
+    position: relative;
+
+    width: 30px;
+
+    left: 100%;
+
+    transform: translate(-100%);
+
+    margin-top: 5px;
+  }
+  #userDataHedd {
+    font-family: Courier New;
+    font-weight: bold;
+
+    color: #24b48e;
+  }
+  #userDataHeddPart {
+    text-align: center;
+
+    margin-top: 10px;
+  }
+  #userNameLabel {
+    color: white;
+
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  #userProfile {
+    max-width: 55px;
+    max-height: 55px;
+    
+    border-radius: 50%;
+  }
+  #userProfileCrop{
+    width: 60px;
+    height: 60px;
+    
+    background: none;
+    
+    border-radius: 50%;
+    border: solid 1px #ec1a3e;
+    
+    margin-left: 20px;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  #userDataSection {
+    background: linear-gradient(to bottom left,#37363f,#0b0819);
+
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+
+    border: solid 1.5px white;
+    border-radius: 8px;
+  }
+</style>
+<script type="text/javascript" charset="utf-8">
+  var alreadyUserPlan;
+  loading("",true)
+  loading("body")
+  {{#if small_file_id}}
+  $.ajax({
+    url: "/api/translate/bot",
+    type: "post",
+    dataType: "json",
+    data: {
+      f: "getFileLink",
+      p1: "{{small_file_id}}",
+    },
+    success: (res)=> {
+      $("#userProfile").attr("src", res.m).removeAttr("hidden")
+      $("#userProfile").ready(()=>{
+      var h=$("#userProfile").height(),
+      w=$("#userProfile").width()
+      if(Math.abs(h-w)>5){
+        $("#userProfile").css({"border-radius":"5px"})
+        $("#userProfileCrop").css("border-radius","5px")
+      }
+      })
+    }
+  })
+  {{/if}}
+  $.ajax("/admin/vip/getData?id={{id}}").then(res=>{
+      if(res.data&&res.data.normal)alreadyUserPlan=true
+      loading("",true)
+      $("#mainPagePart").css({filter:"blur(6px)"})
+      return 
+  })
+    $("#userDataCloseBtn").click(()=> {
+      $("#userDataSection").remove()
+      $("#planPage").css("pointer-events", "auto")
+      $("#mainPagePart").css("filter","none")
+    })
+    $("#confirmNo").click(async()=> {
+      await toast("Please Send /plans Command on the translater bot\nYou are Redirecting to telegram")
+      window.location.href = "https://t.me/subtitle_translate_bot?plans=show"
+    })
+    $("#confirmYes").click(async(e)=> {
+      if (stor.getItem("plan")) {
+        $.ajax({
+          url: "/getPlan",
+          type: "get",
+          dataType: "json",
+          data: {
+            plan: stor.getItem("plan")
+          },
+          success: async(res)=> {
+            if (res.sts&&(!alreadyUserPlan||res.plan.type!="normal")) {
+              console.log(res.plan);
+              stor.setItem("plan_data", JSON.stringify(res.plan))
+              $("#userDataSection").remove()
+              loading("body")
+              makePayment(e)
+            } else {
+              await toast("There is an error found,This Page Will Be refreshed shortly", "error")
+              location.reload()
+            }
+          }
+        })
+      } else {
+        await toast("No Selected Plan Found ,Please Wait... This page will be refreshed shortly", "error")
+        location.reload()
+      }
+    })
+
+    function makePayment(e) {
+      console.log(stor.getItem("plan_data"));
+      let plan = JSON.parse(stor.getItem("plan_data")),
+      currency, amount;
+      if (stor.getItem("money") == "inr") {
+        currency = "INR"
+        amount = parseFloat(plan.price.inr)*100
+      } else {
+        currency = "USD"
+        amount = parseFloat(plan.price.doller)*100
+      }
+      let raz_key="rzp_live_Z9eCiW07AEo0or"
+      //let raz_key="rzp_test_Y5ObxFJ6kRMNUD"
+      $.ajax({
+        url: "/createOrder",
+        type: "get",
+        dataType: "json",
+        data: {
+          currency,
+          amount,
+          id:"{{id}}",
+          plan:stor.getItem("plan")
+        },
+        success: (res)=> {
+          if (res.sts) {
+            loading(null,true)
+            $("#planPage").css("pointer-events","auto")
+            stor.setItem("order", JSON.stringify(res.order))
+          //  var rzp_key="rzp_live_Z9eCiW07AEo0or"
+            var options = {
+              key: raz_key||"rzp_test_Y5ObxFJ6kRMNUD",
+              amount: res.order.amount,
+              currency: res.order.currency,
+              name: "TGWAY",
+              image:logo,
+              description: stor.getItem("plan")+" Purchase",
+              order_id: res.order.id,
+              handler:(pay)=>{
+                $.ajax({
+                  url:"/checkPayment",
+                  type:"get",
+                  dataType:"json",
+                  data:{payment_id:pay.razorpay_payment_id},
+                  success:async(res)=>{
+                    if(res.sts){
+                      if(res.data.status==="captured"){
+                        toast("Your Payment Was Successfully Completed\nPlease Wait ..,You Will Be Redirect To Another Page","success")
+                        location.href="/addNewVip?payment_id="+res.data.id
+                      }else{
+                        await toast("There Is An Error With Payment\nPlease Wait , You Will Be Redirect To Payment Status Page","error")
+                        location.href="/paymentStatus?payment_id="+res.data.id
+                        
+                      }
+                    }else{
+                      await toast("There Is An Error With Payment\nPlease Wait , You Will Be Redirect To Payment Status Page","error")
+                        location.href="/paymentStatus?payment_id="+pay.razorpay_payment_id
+                    }
+                  }
+                })
+              },
+              theme: {
+                color: "#08002a"
+              }
+            }
+            rzp=new Razorpay(options)
+            rzp.open()
+            e.preventDefault()
+            
+            rzp.on("payment.failed",async(err)=>{
+              await toast(`
+ payment error
+ ${err.error.description}
+ reason : ${err.error.reason}
+ 
+ Please Wait You Will Be Redirect to payment status page
+              `,"error")
+              location.href="/paymentStatus?payment_id="+err.error.metadata.payment_id
+            })
+          } else {
+            loading(null, true)
+            toast(res.msg, "error")
+          }
+        }
+      })
+    }
+
+  </script>
+  
+  </section>

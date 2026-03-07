@@ -1,0 +1,54 @@
+<div class="col-8 col-md-4 border border-info rounded" id="adminLoginPart">
+  <input type="text" name="username" id="username" placeholder="username" class="form-control border border-primary"></input>
+<input type="password" name="password" id="password" placeholder="password" class="form-control border border-primary mt-3"></input>
+<button id="loginButton" class="btn btn-primary mt-3">Login</button>
+
+</div>
+<style>
+#adminLoginPart {
+position: fixed;
+
+top: 50%;
+left: 50%;
+
+transform: translate(-50%,-50%);
+
+padding-top: 40px;
+padding-bottom: 40px;
+padding-left: 10px;
+padding-right: 10px;
+
+box-shadow: 0 0 5px 10px #5b5f6e74;
+}
+
+#loginButton {
+position: relative;
+
+left: 50%;
+
+transform: translate(-50%);
+}
+</style>
+
+<script>
+$(document).ready(()=> {
+$("#loginButton").click(()=> {
+var username = $("#username").val()
+var password = $("#password").val()
+$.ajax({
+url: "/admin/login/update",
+type: "POST",
+dataType: "json",
+data: {
+username: username,
+password: password
+},
+success: (res)=> {
+if (res.sts) {
+location.href = `/admin/login${("{{redir}}".length)?`?redir=${"{{redir}}"}`:""}`
+} else alert("Password Or username incorrect")
+}
+})
+})
+})
+</script>

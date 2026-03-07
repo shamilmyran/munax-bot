@@ -1,0 +1,283 @@
+<section id="translateSelLang" class="skiptranslate">
+  <div class="col-10 col-md-6">
+    <div class="col-10 col-md-5">
+      <input type="text" placeholder="search your language name..."/>
+      <div>
+      </div>
+    </div>
+  </div>
+  <style type="text/css" media="all">
+    
+    #translateSelLang>div>div:first-child>div>span:hover{
+      border: solid 1px var(--tg_btn_color);
+      
+      background: var(--tg_btn_shade);
+      
+      color: var(--tg_btn_txt);
+    }
+    #translateSelLang>div>div:first-child>div>span{
+      width: 100%;
+      min-height: 35px;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      
+      font-family: Regular;
+      
+      color: var(--tg_text);
+      
+      border: solid 1px var(--tg_btn_shade);
+      border-radius: 5px;
+      
+      margin-bottom: 2px;
+      
+      transition: .5s;
+      
+      flex: auto 1 auto;
+    }
+    #translateSelLang>div>div:first-child>div{
+      display: flex;
+      
+      flex-direction: column;
+      
+      margin-top: 10px;
+      
+      height: 80%;
+      
+      overflow-y: scroll;
+    }
+    #translateSelLang>div>div:first-child>input::placeholder{
+      color: var(--tg_btn_color);
+    }
+    #translateSelLang>div>div:first-child>input:focus{
+      box-shadow: 0 0 0 3px var(--tg_btn_shade);
+    }
+    #translateSelLang>div>div:first-child>input{
+      width: 100%;
+      height: 35px;
+      
+      margin-top: 20px;
+      
+      border: solid 1.5px var(--tg_btn_color);
+      border-radius: 5px;
+      
+      background: var(--tg_bg);
+      
+      color: var(--tg_text);
+      
+      text-align: center;
+      
+      outline: none;
+      
+      transition: .5s;
+      
+      font-family: Regular;
+    }
+    #translateSelLang>div{
+      height: 70%;
+      
+      background: var(--tg_bg);
+      
+      display: flex;
+      
+      justify-content: center;
+      
+      border-radius: 5px;
+    }
+    #translateSelLang{
+      position: fixed;
+      
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      
+      background: var(--tg_shade);
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+    const LANGUAGES={
+      af: 'Afrikaans',
+      sq: 'Albanian',
+      am: 'Amharic',
+      ar: 'Arabic',
+      hy: 'Armenian',
+      as: 'Assamese',
+      ay: 'Aymara',
+      az: 'Azerbaijani',
+      bm: 'Bambara',
+      eu: 'Basque',
+      be: 'Belarusian',
+      bn: 'Bengali',
+      bho: 'Bhojpuri',
+      bs: 'Bosnian',
+      bg: 'Bulgarian',
+      ca: 'Catalan',
+      ceb: 'Cebuano',
+      ny: 'Chichewa',
+      'zh-CN': 'Chinese (Simplified)',
+      'zh-TW': 'Chinese (Traditional)',
+      co: 'Corsican',
+      hr: 'Croatian',
+      cs: 'Czech',
+      da: 'Danish',
+      dv: 'Dhivehi',
+      doi: 'Dogri',
+      nl: 'Dutch',
+      en: 'English',
+      eo: 'Esperanto',
+      et: 'Estonian',
+      ee: 'Ewe',
+      tl: 'Filipino',
+      fi: 'Finnish',
+      fr: 'French',
+      fy: 'Frisian',
+      gl: 'Galician',
+      ka: 'Georgian',
+      de: 'German',
+      el: 'Greek',
+      gn: 'Guarani',
+      gu: 'Gujarati',
+      ht: 'Haitian Creole',
+      ha: 'Hausa',
+      haw: 'Hawaiian',
+      iw: 'Hebrew',
+      hi: 'Hindi',
+      hmn: 'Hmong',
+      hu: 'Hungarian',
+      is: 'Icelandic',
+      ig: 'Igbo',
+      ilo: 'Ilocano',
+      id: 'Indonesian',
+      ga: 'Irish',
+      it: 'Italian',
+      ja: 'Japanese',
+      jw: 'Javanese',
+      kn: 'Kannada',
+      kk: 'Kazakh',
+      km: 'Khmer',
+      rw: 'Kinyarwanda',
+      gom: 'Konkani',
+      ko: 'Korean',
+      kri: 'Krio',
+      ku: 'Kurdish (Kurmanji)',
+      ckb: 'Kurdish (Sorani)',
+      ky: 'Kyrgyz',
+      lo: 'Lao',
+      la: 'Latin',
+      lv: 'Latvian',
+      ln: 'Lingala',
+      lt: 'Lithuanian',
+      lg: 'Luganda',
+      lb: 'Luxembourgish',
+      mk: 'Macedonian',
+      mai: 'Maithili',
+      mg: 'Malagasy',
+      ms: 'Malay',
+      ml: 'Malayalam',
+      mt: 'Maltese',
+      mi: 'Maori',
+      mr: 'Marathi',
+      'mni-Mtei': 'Meiteilon (Manipuri)',
+      lus: 'Mizo',
+      mn: 'Mongolian',
+      my: 'Myanmar (Burmese)',
+      ne: 'Nepali',
+      no: 'Norwegian',
+      or: 'Odia (Oriya)',
+      om: 'Oromo',
+      ps: 'Pashto',
+      fa: 'Persian',
+      pl: 'Polish',
+      pt: 'Portuguese',
+      pa: 'Punjabi',
+      qu: 'Quechua',
+      ro: 'Romanian',
+      ru: 'Russian',
+      sm: 'Samoan',
+      sa: 'Sanskrit',
+      gd: 'Scots Gaelic',
+      nso: 'Sepedi',
+      sr: 'Serbian',
+      st: 'Sesotho',
+      sn: 'Shona',
+      sd: 'Sindhi',
+      si: 'Sinhala',
+      sk: 'Slovak',
+      sl: 'Slovenian',
+      so: 'Somali',
+      es: 'Spanish',
+      su: 'Sundanese',
+      sw: 'Swahili',
+      sv: 'Swedish',
+      tg: 'Tajik',
+      ta: 'Tamil',
+      tt: 'Tatar',
+      te: 'Telugu',
+      th: 'Thai',
+      ti: 'Tigrinya',
+      ts: 'Tsonga',
+      tr: 'Turkish',
+      tk: 'Turkmen',
+      ak: 'Twi',
+      uk: 'Ukrainian',
+      ur: 'Urdu',
+      ug: 'Uyghur',
+      uz: 'Uzbek',
+      vi: 'Vietnamese',
+      cy: 'Welsh',
+      xh: 'Xhosa',
+      yi: 'Yiddish',
+      yo: 'Yoruba',
+      zu: 'Zulu'
+    }
+    
+    const LANG_CODES=Object.keys(LANGUAGES),
+    LANG_NAMES=Object.values(LANGUAGES)
+    
+    $("#translateSelLang>div input").on("keyup",(e)=>{
+      let search=$(e.currentTarget).val().toLowerCase()
+      
+      let code_filter=LANG_CODES.filter(x=>Boolean(x.toLowerCase().match(new RegExp(`^${search}`)))),
+      name_filter=LANG_NAMES.filter(x=>Boolean(x.toLowerCase().match(new RegExp(`^${search}`))))
+      name_filter=[...code_filter.map(x=>LANGUAGES[x]),...name_filter]
+      
+      let filters=new Set(name_filter)
+      
+      let html=""
+      for(const lang of filters){
+        html+=`<span lang="${LANG_CODES[LANG_NAMES.indexOf(lang)]}">${lang}</span>`
+      }
+      
+      $("#translateSelLang>div>div:first-child>div").html(html)
+      $("#translateSelLang span").on("click",async(e)=>{
+        let lang=$(e.currentTarget).text()
+        
+        await sleep(300)
+        
+        let resp=await tg_prompt("Do you want to set your language to "+lang)
+        
+        if(!resp)return tg_alert("Okey, you can reselect the language")
+        
+        window.localStorage.setItem("lang_name",lang)
+        
+        lang=$(e.currentTarget).attr("lang")
+        window.localStorage.setItem("lang", lang)
+        
+        $("#translateSelLang").fadeOut(500,()=>{
+          start_process()
+          $("#translateSelLang").remove()
+        })
+      })
+    })
+    
+  </script>
+</section>
+

@@ -1,0 +1,66 @@
+<section id="planDetialsSection">
+  <input type="text" value="{{plan.plan}}">
+  <input type="text" value="{{plan.type}}" placeholder="There Is No Offer Mentioned">
+  <input type="text" value="RS {{plan.price.inr}}/-">
+  <input type="text" value="${{plan.price.doller}}">
+  <input type="text" value="{{plan.valid}} Days">
+  <input type="text" value="{{plan.limit}} Translations">
+  <textarea type="text"></textarea>
+  <button class="btn rounded-circle btn-success" id="editBtn"><i class="fa fa-pencil"></i></button>
+</section>
+<style >
+
+  #editBtn{
+    position: fixed;
+    
+    bottom: 45px;
+    right: 30px;
+    
+    transform: transition(-10px,-20px);
+    
+    width: 60px;
+    height: 60px;
+  }
+  #planDetialsSection{
+    
+    justify-content: center;
+    text-align: center;
+  }
+  input,textarea{
+    width: 70%;
+    height: 35px;
+    
+    margin-top: 20px;
+    
+    transition: .7s;
+    
+    border-radius: 8px;
+    
+    border: solid 1px #27d04a94;
+    
+    outline: none;
+   
+    text-align: center;
+    
+    font-family: Courier;
+    font-weight: bold;
+  }
+  textarea{
+    height: 130px;
+  }
+  input:focus,textarea:focus{
+    border: solid 1px #27d04a94;
+    
+    box-shadow: 0 0 1px 4px #27d04a94;
+  }
+</style>
+<script >
+  $("textarea").html("{{plan.gain}}".replace(/,/g,"\n"))
+  $("input,textarea").attr("readonly","true")
+  
+  $("#editBtn").click(async()=>{
+    await toast("You Are Redirecting To Plan Changing Page")
+    location.href="/admin/planChanger"
+  })
+  
+</script>

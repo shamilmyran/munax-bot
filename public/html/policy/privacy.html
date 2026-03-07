@@ -1,0 +1,112 @@
+<section id="privacyPolicySection">
+  <div id="privacyHeadBack">
+    <h4 id="privacyPolicyHead" class="policyHead">PRIVACY POLICY</h4>
+  </div>
+  <div id="privacyBodyBack" style="width:100%">
+    <div class="policyTextBack">
+      <p class="policyText"><strong>W</strong>e do not store any sensitive informations like <strong>ip</strong> address,<strong>phone</strong> number,<strong>email</strong> address,password etc.. .<b> We Only Store These Detials</b></p>
+    </div>
+    <div>
+      <ul id="storingItemList" type="disc">
+        <li>Telegram User ID</li>
+        <li>Some subtitle files</li>
+        <li>All translation detials</li>
+        <li>Some YouTube video links</li>
+      </ul>
+    </div>
+    <div id="QAPart">
+    </div>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8" id="QAScript">
+    var QA=[
+        {
+          q:"Why does the TGWAY storing my User Id ?",
+          a:"We need your User ID to provide new notification about our bots and to know NUMBER of our bot users"
+        },
+        {
+          q:"Which type of subtitles are stored in TGWAY ?  Why ?",
+          a:"We store broken subtitles to know what type of error is Occured while converting"
+        },
+        {
+          q:"Why does the TGWAY storing my translation detials ?",
+          a:"We store translation details to see how many translation process are working in each day"
+        },
+        {
+          q:"Which type of YouTube video links are stored in TGWAY ?. Why ?",
+          a:"We store video links that are showing an error while downloading subtitles from youtube"
+        }]
+        var toHtml=(str)=>{
+          var t=""
+          for(var i in str){
+            if(isUpper(str[i]))t+=`<b>${str[i]}</b>`
+            else t+=str[i].toUpperCase()
+          }
+          return t
+        }
+        QA.map(async(e,i)=>{
+          var html=`<div>
+        <div class="privacyQBack">
+          <h3 class="privacyQ">${toHtml(e.q)}</h3>
+        </div>
+        <div>
+          <div class="privacyABack">
+            <p class="privacyA">${e.a}</p>
+          </div>
+        </div>
+      </div>`
+         $("#QAPart").append(html)
+        })
+        $("#QAScript").remove()
+  </script>
+  
+  
+  <style type="text/css" media="all">
+    
+    .privacyA{
+      text-align: center;
+      
+      color: #61c771;
+      
+      font-family: Courier New;
+      font-weight: bold;
+    }
+    .privacyABack{
+      width: 90%;
+      
+      margin: 0 auto;
+    }
+    b{
+      font-weight: 1000;
+    }
+    .privacyQBack{
+      width: 95%;
+      
+      margin: 0 auto;
+    }
+    .privacyQ{
+      color: #989abd;
+      
+      font-family: Monospace;
+      font-size: 18px;
+      font-weight: 600;
+      font-style: italic;
+      
+      word-spacing: -5px;
+      
+      text-align: center;
+    }
+    #storingItemList{
+      color: #6ebbfd;
+      
+      font-size: 16px;
+      font-family: Courier;
+      font-weight: bold;
+      
+      margin-left: 25px;
+      
+      line-height: 2;
+    }
+  </style>
+  
+</section>

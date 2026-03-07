@@ -1,0 +1,60 @@
+<section id="adsShowingSection">
+  <div id="adsNamePart">
+  {{#each ads}}
+    <label class="adName" value="{{this.adsUrl}},{{this.adsScript}}">{{this.adName}}</label><br><br>
+  {{/each}}
+  </div>
+  <div id="adsDetialsPart" hidden="true">
+    <i class="fa fa-times-circle" id="closeBtn"></i>
+    <h6 id="adName">Ad Name</h6><br><br>
+    <label id="adUrl">Ads Url</label><br><br>
+    <p id="adScript">adsScript</p>
+  </div>
+</section>
+<style >
+
+  
+  
+  #closeBtn{
+    color: #ff003b;
+    
+    font-size: 20px;
+  }
+  #adsDetialsPart{
+    position: fixed;
+    
+    width: 90%;
+    height: 300px;
+    
+    left: 50%;
+    top: 50%;
+    
+    transform: translate(-50%,-50%);
+    
+    background: #131525cb;
+    
+    border-radius: 5px;
+    
+    text-align: center;
+    
+   color: white;
+  }
+  .adName{
+    text-align: center;
+  }
+  #adsNamePart{
+    text-align: center;
+  }
+</style>
+<script type="text/javascript">
+  $(".adName").click((e)=>{
+    var [url,script]=$(e.target).attr("value").split(",")
+    $("#adName").text($(e.target).text())
+    $("#adUrl").text(url)
+    $("#adScript").text(script)
+    $("#adsDetialsPart").removeAttr("hidden")
+  })
+  $("#closeBtn").click(()=>{
+    $("#adsDetialsPart").attr("hidden","")
+  })
+</script>

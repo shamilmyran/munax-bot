@@ -1,0 +1,53 @@
+<section id="createLinkSection">
+  <div class="col-12 col-md6" id="createLinkPart">
+    <input type="url" class="form-control border border-primary" placeholder="Paste url" id="urlInp" name="urlInp">
+    <button class="btn btn-primary " id="submitBtn"> > </button>
+  </div>
+</section>
+<style>
+  #createLinkPart {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+
+    display: flex;
+
+    justify-content: center;
+  }
+  #urlInp {
+    width: 60%;
+  }
+  #submitBtn {
+    margin-left: 10px;
+  }
+</style>
+<script>
+  $("#submitBtn").click(()=> {
+    var url = $("#urlInp").val()
+    if (url) {
+      var encrypt = encodeURIComponent(url)
+      var base_url= location.href
+      base_url=base_url.replace("https://","¢").replace("http://","€")
+      base_url=base_url.split("/")[0].replace("¢","https://").replace("€","http://")
+      encrypt=base_url+"/?"+encrypt
+      $.ajax({
+        url:"/admin/bitly",
+        type:"GET",
+        dataType:"json",
+        data:{
+          url:encrypt
+        },
+        success:(res)=>{
+          if(res.err) alert("A error accured")
+          else{
+            $("#urlInp").val(res.link)
+          }
+        }
+      })
+      
+    } else alert("nothing to select")
+  })
+</script>

@@ -1,0 +1,32 @@
+<section id="image_bottom_controls_sec" class="toolsSection elementToolSec">
+  <div class="btn_active_tg btn_opacity">
+    <i class="fa-regular fa-plus" hint="Add image from your local disk"></i>
+  </div>
+  <style type="text/css" media="all">
+    
+    #image_bottom_controls_sec{
+      position: fixed;
+      
+      left: 0;
+      right: 0;
+      bottom: 0;
+      
+      height: 50px;
+      
+      background: var(--tg_shade);
+      
+      visibility: hidden;
+      
+      display: flex;
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+    $(document).ready(async()=>{
+      $(".toolsSection").css({animation:"bottomCtrlVsbl 1s 1"})
+      await sleep(1000)
+      $(".toolsSection").hide()
+      $("#image_bottom_controls_sec").show().css({visibility:"visible",animation:"bottomCtrlVsbl 1s 1 reverse"})
+      tg_alert("select an image by clicking the <b>+ , <i class=\"fa-brands fa-telegram\"></i></b> button")
+    })
+  </script>
+</section>

@@ -1,0 +1,38 @@
+<section id="navigationSec" class="navigationSec">
+  <div class="col-5" style="display:flex;justify-content:space-between">
+    <i class="fa fa-angle-left btn_opacity" hint="Previous Page"></i>
+    <span style="font-weight:400;font-size:20px;color:white;font-family: Courier">{{page}}</span>
+    <i class="fa fa-angle-right btn_opacity" hint="Next Page"></i>
+  </div>
+  <div class="col-5" style="display:flex;justify-content:space-around">
+    <i class="fa fa-arrow-pointer btn_opacity" hint="Select Elements"></i>
+    <i class="fa-regular fa-check btn_opacity" hint="Complete Editing"></i>
+  </div>
+  <style type="text/css" media="all">
+    
+    #navigationSec>div>i{
+      font-size: 25px;
+      font-weight: 800;
+      
+      color: white;
+      
+    }
+    #navigationSec{
+      position: fixed;
+      
+      left: 0;
+      right: 0;
+      
+      height: 50px;
+      
+      display: flex;
+      
+      justify-content: space-between;
+      align-items: center;
+      
+      background: var(--tg_shade);
+      
+      padding: 20px;
+    }
+  </style>
+</section>

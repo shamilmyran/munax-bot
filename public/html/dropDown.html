@@ -1,0 +1,233 @@
+<section id="dropDownSection" class="col-9 col-md-5 dropDownSection" >
+  
+  <div id="dropDownHeadPart" >
+    <div style="width:15%">
+      <i id="dropDownClose" class="fa fa-times-circle-o"></i>
+    </div>
+    <div style="width:30%"> 
+       <img id="dropDownTgwayIcon" src="/images/icon.png" alt="tgway icon"  width="60px"/>
+    </div>
+    <div style="width:55%">
+      <div id="dropDownHeadBack">
+        <div>
+          <a href="/"><h3 id="dropDownHeading">TG WAY</h3></a>
+        </div>
+        <div id="dropDownHeadingUnderLine"></div>
+        <div>
+          <span id="dropDownSubHead">Telegram Bot Services</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="dropDownBodySection">
+    <a href="/"><div class="dropDownOptBack">
+      <span class="dropDownOpt" value="ourBots">Home</span>
+    </div></a>
+    <a href="/#ourBotsPart"><div class="dropDownOptBack">
+      <span class="dropDownOpt" value="ourBots">Our Bots</span>
+    </div></a>
+    <a href="/#aboutUsPart"><div class="dropDownOptBack">
+      <span class="dropDownOpt" value="aboutUs">About Us</span>
+    </div></a>
+    <a href="/#contactUsPart"><div class="dropDownOptBack">
+      <span class="dropDownOpt" value="contactUs">Contact Us</span>
+    </div></a>
+    <a href="/plans"><div class="dropDownOptBack">
+      <span class="dropDownOpt" value="pricing">Pricing</span>
+    </div></a>
+    <a href="/policy?t=privacy"><div class="dropDownOptBack">
+      <span class="dropDownOpt">Privacy Policy</span>
+    </div></a>
+    <a href="/policy?t=terms"><div class="dropDownOptBack">
+      <span class="dropDownOpt">Terms of use</span>
+    </div></a>
+    <a href="/policy?t=refund"><div class="dropDownOptBack">
+      <span class="dropDownOpt">Refund Policy</span>
+    </div></a>
+  </div>
+  <style >
+    
+    #dropDownBodySection{
+      margin-bottom: 20px;
+    }
+    .dropDownOpt{
+      color: #11c685;
+      
+      font-family: Monospace;
+      font-size: 23px;
+      font-weight: 400;
+      
+      letter-spacing: -1px;
+    }
+    .dropDownOptBack{
+      width: 100%;
+      height: 70px;
+      
+      border-bottom: solid 1.5px #98a8ac;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+      
+      transition: 0.5s;
+    }
+    .dropDownOptBack:hover > *{
+      color: #16182be0;
+    }
+    .dropDownOptBack:hover{
+      background: #11c685;
+    }
+    #dropDownHeadBack{
+      position: relative;
+      
+      top: 50%;
+      
+      transform: translate(0,-50%);
+    }
+    #dropDownSubHead{
+      color: #c85d84;
+    
+      font-family: Courier New;
+      font-weight: bold;
+      
+      display: flex;
+      
+      justify-content: center;
+      
+      font-size: 12px;
+      
+    }
+    #dropDownHeadingUnderLine{
+      width: 100px;
+      height: 10px;
+    
+      border: solid 2px #275a6d;
+      border-bottom-right-radius: 10px;
+      border-left: none;
+      border-top: none;
+    
+      position: relative;
+      top: -5px;
+    
+      transform: translate(0,-5px);
+      
+      margin: 0 auto;
+    }
+    a{
+      text-decoration: none;
+    }
+    #dropDownHeading{
+      font-family: cursive;
+      font-weight: 1000;
+    
+      color: #9799BC;
+    
+      letter-spacing: 2px;
+      
+      text-align: center;
+    }
+    #dropDownTgwayIcon{
+      float: right;
+    }
+    #dropDownClose{
+      color: white;
+      
+      font-size: 22px;
+      font-weight: 100;
+      
+      position: relative;
+      
+      left: 70%;
+      top: 50%;
+      
+      transform: translate(-70%,-50%);
+    }
+    #dropDownHeadPart{
+      display: flex;
+      
+      border-bottom: solid 1.2px #98a8ac;
+      
+      padding-top: 15px;
+      padding-bottom: 20px;
+    }
+    .dropDownSection{
+      max-width: 70%;
+      
+      position: fixed;
+      
+      top: 0;
+      bottom: 0;
+      
+      background: #16182be0;
+      
+      animation: slideRight 1.4s;
+      animation-fill-mode: forwards;
+      
+      overflow: scroll;
+    }
+    @keyframes slideRight{
+      0%{
+        margin-left: -70%;
+        
+      }
+      100%{
+        margin-left: 0%;
+      }
+    }
+    .dropDownClose{
+      max-width: 70%;
+      
+      position: fixed;
+      
+      top: 0;
+      bottom: 0;
+      
+      background: #16182be0;
+      
+      
+      animation: slideLeft 1.4s;
+      animation-fill-mode: forwards;
+    }
+    @keyframes slideLeft{
+      0%{
+        margin-left: 0%;
+      }
+      100%{
+        margin-left: -70%;
+      }
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+  $(document).ready(async()=>{
+    loading('',true)
+    $('#dropDown').hide()
+    $("#dropDownClose").hide()
+    setTimeout(async()=>{
+      await sleep(600)
+      $("#dropDownClose").fadeIn(500)
+    },1000)
+    
+    // Drop down section closing function
+    async function closeDropDown(){
+      $("#dropDownSection").attr("class","dropDownClose col-9 col-md-5")
+      await sleep(1400)
+      $("#dropDown").show(500)
+      $("#dropDownSection").remove()
+    }
+    
+    // Drop Down Close by clicking #dropDownClose button
+    $("#dropDownClose").click(()=>{
+      closeDropDown()
+    })
+    
+    // Drop Down Closing By Clicking The out side of the doro down section
+    $(document).click((e)=>{
+      if($(e.target).closest("#dropDownSection").length===0&&$("#dropDownSection").is(":visible")){
+        closeDropDown()
+      }
+    })
+    $(".dropDownClose").css({animation:"slideRight "+parseInt(Math.abs($(window).width/257))+"s"})
+  })
+  </script>
+</section>

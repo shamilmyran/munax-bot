@@ -1,0 +1,99 @@
+<section id="adsAddingSection">
+  <input id="adName" name="adName" type="text" placeholder="Enter the Ad Name">
+  <select id="adsUrl" name="adsUrl" >
+    <option value="0">Select a Url</option>
+    <option value="1">tgway</option>
+    <option value="2">tgway2</option>
+  </select>
+  <textarea id="adsScript" name="adsScript" placeholder="Enter the Ad Script "></textarea>
+  
+  <button class="btn btn-primary col-5" id="subBtn">Submit</button>
+  <a href="/admin/getAds"><button id="getAdsBtn"><i class="fa fa-info-circle" style="font-size:20px"></i></button></a>
+</section>
+<style>
+  
+  
+  #getAdsBtn{
+    position: fixed;
+    
+    top: 90%;
+    left: 90%;
+    
+    transform: translate(-90%,-90%);
+    
+    width: 60px;
+    height: 60px;
+    
+    border-radius: 50%;
+    border: none;
+    
+    background: #70dc89;
+    color: white;
+  }
+  #adsAddingSection{
+    width: 100%;
+    
+    padding-top: 30px;
+  }
+  input,textarea,select{
+    position: relative;
+    
+    width: 70%;
+    height: 35px;
+    
+    border: solid 1px #205ad2;
+    border-radius: 8px;
+    
+    left: 50%;
+    
+    transform: translate(-50%);
+    
+    color: black;
+    
+    text-align: center;
+    
+    outline: none;
+    
+    margin-top: 10px;
+    
+    background: none;
+  }
+  textarea{
+    height: 200px;
+  }
+  button{
+    position: relative;
+    
+    left: 50%;
+    
+    transform: translate(-50%);
+    
+    margin-top: 20px;
+  }
+</style>
+<script type="text/javascript">
+  $('#subBtn').click(()=>{
+    let adName=$('#adName').val(),
+    adsUrl=Number($("#adsUrl").val()),
+    adsScript=$("#adsScript").val()
+    if(adName.length&&adsUrl&&adsScript.length){
+      $.ajax({
+        url:'/admin/addAds',
+        type:'post',
+        dataType:'json',
+        data:{
+          adName,adsUrl,adsScript
+        },
+        success:(res)=>{
+          if(res.sts){
+            toast('Successfully added new ad','success')
+          }else{
+            toast(res.err,"error")
+          }
+        }
+      })
+    }else{
+      toast('Please Check That You Are Filled All detials','error')
+    }
+  })
+</script>

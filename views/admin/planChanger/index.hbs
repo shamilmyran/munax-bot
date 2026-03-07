@@ -1,0 +1,194 @@
+<section id="planDetialsSection" class="container">
+  {{#if plans.length}}
+  <div class="container">
+    {{#each plans}}
+    <a href="/admin/planChanger/detials?plan={{this.plan}}">
+    <div class="card col-12 mt-2 border-danger">
+      <div class="cardData col-3 col-md-4" style="font-family:Courier;font-weight:bold;font-size:22px;float:left">
+        <div style="color:#348648">
+        ${{this.price.doller}}
+        </div>
+      </div>
+      <div class="cardData col-9 col-md-8" style="font-family:Courier;font-size:15px;float:right;font-weight:bold">{{this.plan}}</div>
+    </div>
+    </a>
+    {{/each}}
+  </div>
+  {{else}}
+    <div id="noPlans" class="col-10 col-md-5">
+      <h4 id="noDataHedd">No Plans Are Founded</h4>
+      <p id="noDataP">
+        There Is No Plans Data Found , Kindly Add New Plans By Clicking The Above Button
+      </p>
+      <button id="addNew" class="btn btn-primary rounded-circle"><i class="fa fa-plus" style="font-weight:bold"></i></button>
+    </div>
+  {{/if}}
+</section>
+<section id="addNewSection" hidden="true">
+  <div id="addNewFormDiv">
+  <form class="col-10 col-md-6" id="planDataForm">
+    <input type="text" id="planName" name="planName" placeholder="Entet The Plan Name">
+    <select id="planType" name="planType">
+      <option value="">Select Plan Type</option>
+      <option value="normal">Normal</option>
+      <option value="addon">Add On</option>
+    </select>
+    <input type="number" id="inrPrice" name="inrPrice" placeholder="Enter The Price In India">
+    <input type="number" id="USPrice" name="USPrice" placeholder="Enter The Price In Dollars">
+    <input type="number" id="planValid" name="planValid" placeholder="Enter The Plan validity">
+    <input type="number" id="limit" name="limit" placeholder="Enter The Translation Limit">
+    <textarea id="gaines" name="gaines" placeholder="Enter The Plan Gaines" rows="10" cols="25"></textarea>
+  </form>
+  <button class="btn btn-success" id="newPlanAddBtn">Add New</button>
+  </div>
+</section>
+<section >
+  <button id="addNewBtn" class="btn btn-primary rounded-circle" style="width:55px;height:55px"><i class="fa fa-plus"></i></button>
+</section>
+<style rel="text/stylesheet">
+
+  #addNewBtn{
+    position: fixed;
+    
+    right: 8%;
+    bottom:5%;
+    
+    transform: translate(-10%,-10%);
+  }
+  .cardData{
+    text-align: center;
+    height: 100%;
+    
+    display: flex;
+
+    justify-content: center;
+    
+    align-items: center;
+  }
+  .card{
+    height: 80px;
+    
+    border: 1px black solid;
+    
+    display: inline-block;
+  }
+  #noPlans{
+    position: fixed;
+    
+    height: 200px;
+    
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%,-50%);
+    
+    border: 1.5px solid #2a66d9;
+    border-radius: 8px;
+    
+    text-align: center;
+   
+    padding: 10px;
+    
+    justify-content: center;
+  }
+  h1,h2,h3,h4,h5,h6{
+    font-family: FreeMono, monospace;
+    font-weight: bold;
+  }
+  #noDataHedd{
+    color: #20d17b;
+  }
+  #noDataP{
+    font-family: Courier New;
+    font-weight: bold;
+    
+    color: black;
+  }
+  #addNew{
+    width: 50px;
+    height: 50px;
+  }
+  input,textarea,select{
+    width: 80%;
+    
+    border: solid 1px #2e4aab;
+    border-radius: 8px;
+    
+    text-align: center;
+    
+    font-family: Courier New;
+    font-weight: bold;
+    
+    color: black;
+    
+    margin-top: 20px;
+  }
+  input,select{
+    height: 35px;
+  }
+  input::placeholder,textarea::placeholder{
+    color: #8c9397;
+  }
+  #addNewFormDiv{
+    width: 100%;
+  }
+  #planDataForm{
+    justify-content: center;
+    text-align: center;
+    
+    position: relative;
+    
+    left: 50%;
+    
+    transform: translate(-50%);
+    
+    padding: 20px;
+    
+    display: row;
+  }
+  #newPlanAddBtn{
+    width: 100px;
+    
+    left: 50%;
+    
+    position: relative;
+    
+    transform: translate(-50%);
+    
+    margin-top: 20px;
+  }
+</style>
+<script type="text/javascript">
+  $("#addNew,#addNewBtn").click(()=>{
+    $("#planDetialsSection").hide(500)
+    $("#addNewSection").removeAttr("hidden").hide().show(500)
+  })
+  $("#newPlanAddBtn").click(()=>{
+    let plan=$("#planName").val(),
+    type=$("#planType").val()||null,
+    price={
+      INR:$("#inrPrice").val(),
+      DOLLER:$("#USPrice").val()
+    },
+    valid=$("#planValid").val(),
+    gain=$("#gaines").val().split("\n"),
+    limit=$("#limit").val()
+    if(plan&&price.INR&&price.DOLLER&&valid&&gain.length&&limit&&type){
+      var data={
+        plan,price,type,valid,gain,limit
+      }
+      $.ajax({
+        url:"/admin/addPlan",
+        dataType:"json",
+        data:data,
+        method:"post",
+        success:async res=>{
+          if(res.sts){
+            await toast(res.msg,"success")
+            location.href="/admin/planChanger"
+          }else alert("Unexpected Error Occurred ,Please Try Again")
+        }
+      })
+    }else toast("Required Data Not Found \nPlease Check The For And Try Again","error")
+  })
+</script>

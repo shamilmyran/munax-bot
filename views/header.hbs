@@ -1,0 +1,83 @@
+<div id="pageHeadPart">
+    <div id="dropDownBack" style="width:15%">
+      <i class="fa fa-bars" style="color:white" id="dropDown"></i>
+    </div>
+    <div id="mainHeadPart" style="width:85%">
+      <div style="width:65%">
+        <h4 id="pageMainName">T G W A Y</h4>
+        <label id="pageMainNameLabel">Telegram Bot Services</label>
+      </div>
+      <div style="width:35%">
+        <img src="/images/icon.png" alt="Tgway Icon" width="80px" id="tgwayIcon">
+      </div>
+    </div>
+  </div>
+  
+  <style >
+    
+    
+    #dropDownBack{
+      height: 100%;
+      
+      padding: 20px;
+    }
+    #dropDownBack i{
+      font-size: 20px;
+    }
+    #pageMainNameLabel {
+    color: white;
+
+    font-family: Courier;
+    font-weight: bold;
+
+    background: -webkit-linear-gradient(#ff0066,#e27bd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #pageMainName {
+    font-family: Georgia;
+    font-weight: bold;
+
+    color: white;
+
+    background: -webkit-linear-gradient(#8e00ff,#00ffc6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #mainHeadPart {
+    display: flex;
+
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+  #pageHeadPart {
+    width: 100%;
+    
+    display: flex;
+    
+    justify-content: center;
+    text-align: center;
+
+    background: linear-gradient(to bottom,#2e2d35,#0f0f20);
+
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  </style>
+  <script type="text/javascript">
+    $("#dropDownBack").click(()=>{
+      loading('body')
+      $.ajax({
+        url:'/html',
+        type:"post",
+        dataType:'text',
+        data:{
+          path:'/html/dropDown'
+        },
+        success:(html)=>{
+          $('body').append(html)
+        }
+      })
+    })
+  </script>

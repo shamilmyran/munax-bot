@@ -1,0 +1,25 @@
+<section id="policiesSection">
+  <div>
+    <span id="policyReadMustText">Must read before using our Services</span>
+  </div>
+  <script type="text/javascript">
+    loading("body")
+    $.ajax({
+      url:"/html",
+      type:"post",
+      dataType:"text",
+      data:{
+        path:"/html/policy/{{type}}"
+      },
+      success:async(html)=>{
+        if(html.length&&html.toLowerCase()!=="the file is not found"){
+          loading("",true)
+          $("#policiesSection").append(html)
+        }else{
+          await toast("Unexpected Error Occured","error")
+          location.href="/"
+        }
+      }
+    })
+  </script>
+</section>

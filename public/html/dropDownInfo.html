@@ -1,0 +1,176 @@
+<section id="dropDownInfoSection">
+  <div id="hintHeadBack">
+    <h3 id="hintHead" style="--clr:#50DE9A"></h3>
+    <script type="text/javascript" charset="utf-8">
+      var head="SLIDE RIGHT FOR THE NAVIGATION BAR";
+      (async()=>{
+        for(var i in head){
+          var txt=$("#hintHead").text()
+          $("#hintHead").text(txt+head[i])
+          if(head[i]!==" ")await sleep(100);
+          else continue
+        }
+        $("#hintHeadBack > script").remove()
+      })()
+    </script>
+  </div>
+  <div id="slideArrowPart">
+    <i class="fa fa-long-arrow-right" id="slideArrow"></i>
+  </div>
+  <div id="hintBack">
+    <div id="hintImgBack">
+      <img src="/images/hint_bulb.png" alt="Hint Bulb" width="60" id="hintImg"/>
+    </div>
+  </div>
+  <div style="width:100%;height:15%">
+    <button id="hintOkBtn">OK ! </button>
+    <script type="text/javascript" charset="utf-8">
+      $("#hintOkBtn").click(async()=>{
+        await sleep(1000)
+        $("#dropDownInfoSection").remove()
+      })
+    </script>
+  </div>
+  <style type="text/css" media="all">
+    
+    #hintOkBtn{
+      --clr:#4977da;
+      
+      border: solid 1px var(--clr);
+      
+      background: none;
+      
+      position: relative;
+      
+      top: 50%;
+      left: 50%;
+      
+      transform: translate(-50%,-50%);
+      
+      width: 90px;
+      height: 40px;
+      
+      border-radius: 5px;
+      
+      outline: none;
+      
+      transition: .8s;
+      
+      color: var(--clr);
+      
+    }
+    #hintOkBtn:hover{
+      background: var(--clr);
+      
+      
+      letter-spacing: 1px;
+      
+      color: black;
+      
+      font-weight: bold;
+      
+      box-shadow: 0 0 10px 4px var(--clr);
+    }
+    #hintImgBack{
+      box-shadow: 0 0 10px -10px #FFC721;
+    }
+    #hintImg{
+      animation: lightning_bulb 4s infinite;
+    }
+    @keyframes lightning_bulb{
+      0%{
+        opacity: 0;
+      }
+      30%{
+        opacity: 1;
+        
+        transform: rotateY(0deg);
+      }
+      60%{
+        transform: rotateY(360deg);
+        
+        opacity: 1;
+      }
+      70%{
+        opacity: 0;
+      }
+      80%{
+        opacity: 1;
+      }
+    }
+    #hintBack{
+      width: 100%;
+      height: 25%;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+    }
+    #slideArrow{
+      color: #dbe0e1;
+      
+      font-size: 80px;
+      font-weight: 1000;
+      
+      animation: slideArrow 1.5s infinite;
+    }
+    @keyframes slideArrow{
+      0%
+      {
+        margin-left: 0;
+        opacity: 1;
+      }
+      100%
+      {
+        margin-left: 30%;
+        opacity: 0;
+      }
+    }
+    #slideArrowPart{
+      display: flex;
+      
+      height: 30%;
+      
+      align-items: center;
+    }
+    #dropDownInfoSection
+    {
+      position: fixed;
+      
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      
+      background: #3d414ece;
+    }
+    #hintHead
+    {
+      color: var(--clr);
+      
+      text-align: center;
+      
+      font-family: Monospace;
+      font-weight: 1000;
+      
+      text-shadow: 0 0 4px var(--clr);
+      
+      letter-spacing: -1px;
+    }
+    #hintHeadBack
+    {
+      position: relative;
+      
+      width: 90%;
+      height: 30%;
+      
+      margin: 0 auto;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+</section>

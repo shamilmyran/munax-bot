@@ -1,0 +1,288 @@
+<section id="logsSection">
+  <div>
+    <h5 id="logPageMainHead">Your Translation Logs</h5>
+  </div>
+  <div id="logsPart">
+    <div id="logRestartTimerPart" class="col-7">
+      <div>
+        <span id="logRestartLabel">Logs Will Be Restarted After </span> <br>
+        <span id="logsRestartLabelDis">TGWAY follow UTC +0.00 Time</span>
+      </div>
+      <div id="logsRestartTimerBack" class="col-5">
+        <div class="col-4">
+          <span class="logsTimer" id="logsTimeHour">01</span>
+        </div>
+        <div class="col-4">
+          <span class="logsTimer" id="logsTimeMinuts">35</span>
+        </div>
+        <div class="col-4">
+          <span class="logsTimer" id="logsTimeSec">42</span>
+        </div>
+      </div>
+    </div>
+    {{#each logs}}
+      <div class="planSection">
+        <div style="width:100%">
+          <h4 class="planHead">{{this.plan}} logs</h4>
+        </div>
+        <div>
+          <table>
+            <tr>
+              <td class="tableKey">Totel Translation : </td>
+              <td class="tableVal">{{#if this.addon}}Current plan<font color="red"> + </font>{{this.totel}}{{else}}{{this.totel}}/Day{{/if}}</td>
+            </tr>
+            <tr>
+              <td class="tableKey">Used Translation : </td>
+              <td class="tableVal">{{this.used}}</td>
+            </tr>
+            <tr>
+              <td class="tableKey">Validity End : </td>
+              <td class="tableVal">{{this.valid}} Days</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <div>
+            <label class="usageHead">Usage/Day</label>
+          </div>
+          <div>
+            <div class="usageProgressBack">
+              <div class="usageProgress" style="width:{{usage_p}}%"></div>
+            </div>
+          </div>
+          <div style="width:80%;display:flex;margin-left:30px">
+            <div style="width:80%">
+            <label class="usageProgressMaths">{{this.used}}/{{this.totel}}</label>
+            </div>
+            <div style="width:20%;position:relative;display:flex; justify-content:center;text-align:center;">
+            <label class="usageProgressPerce">{{#short_perce this.usage_p}}{{this}}%{{/short_perce}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+  </div>
+</section>
+<style >
+  
+  
+  #logsRestartLabelDis{
+    color: #cb5484;
+    
+    font-size: 0.5rem;
+    font-weight: bold;
+    
+    display: flex;
+    
+    justify-content: center;
+    
+    padding-top: 10px;
+  }
+  .logsTimer{
+    color: #72a4de;
+    
+    font-size: 24px;
+  }
+  #logsRestartTimerBack>div{
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  #logsRestartTimerBack{
+    width: 100%;
+    max-width: 150px;
+    height: 60px;
+    
+    border: solid 1.5px #1175e4;
+    border-radius: 8px;
+    
+    margin-left: 10px;
+    
+    display: flex;
+  }
+  #logRestartLabel{
+    color: white;
+    
+    font-family: Georgia;
+  }
+  #logRestartTimerPart{
+    min-height: 100px;
+    width: 100%;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .usageProgressPerce{
+    color: #1AC44F;
+    
+    margin-top: 5px;
+   
+  }
+  .usageProgressMaths{
+    color: white;
+    
+    margin-top: 5px;
+    
+    margin-left: 5px;
+  }
+  .usageProgress{
+    background: #1BC951;
+    
+    height: 100%;
+    
+    border-radius: 3px;
+    
+    min-width: .1%;
+    max-width: 100%;
+  }
+  .usageProgressBack{
+    margin-left: 30px;
+    
+    width: 80%;
+    height: 45px;
+    
+    border: 5px solid #504189;
+    border-radius: 8px;
+    
+    margin-top: 5px;
+  }
+  .usageHead{
+    color: #36B45D;
+    
+    text-shadow: 0 1px 1.5px #7ECB97;
+    
+    font-size: 130%;
+    
+    margin-left: 10%;
+    
+    margin-top: 15px;
+  }
+  table{
+    margin-left: 20%;
+    margin-top: 15px;
+  }
+  .tableVal{
+    color: #909E21;
+    
+    font-family: Times New Roman;
+    font-size: 110%;
+    
+    text-shadow: 0 0 1px #8D9B21;
+    
+    padding-left: 20px;
+    
+  }
+  .tableKey{
+    color: #F830C8;
+    
+    text-shadow: 0 0 2px #F868A8;
+    
+    font-family: Times New Roman;
+    
+    text-align: right;
+    
+    padding-top: 10px;
+  }
+  .planHead{
+    font-weight: 400;
+    font-family: Times New Roman;
+    
+    text-decoration: underline;
+    
+    color: #B0A8D8;
+    
+    margin-top: 30px;
+    margin-left: 30px;
+  }
+  #logsPart{
+    width: 100%;
+    height: 100%;
+    
+    display: inline-block;
+  }
+  #logsSection{
+    background: #060224;
+    
+    position: fixed;
+    
+    width: 100%;
+    
+    bottom: 0;
+    
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    overflow: scroll;
+    
+    padding-bottom: 100px;
+  }
+  #logPageMainHead{
+    text-align: center;
+    
+    color: #46eb67;
+    
+    font-family: Georgia;
+    
+    margin-top: 20px;
+    
+    text-shadow: 0 0 10px #37ec77ad;
+    
+    animation:blinking 10s infinite;
+  }
+  @keyframes blinking{
+    0%{
+      opacity: 1;
+    }
+    20%{
+      opacity: 0;
+    }
+    30%{
+      opacity: 1;
+    }
+    40%{
+      opacity: 0;
+    }
+    70%{
+      opacity: 1;
+      
+    }
+    75%{
+      opacity: 0;
+    }
+    80%{
+      opacity: 1;
+    }
+    90%{
+      opacity: 0;
+    }
+  }
+</style>
+<script type="text/javascript">
+  loading("#logsSection")
+  $(document).ready(()=>{
+    loading("",true)
+    $("#pageHeadPart").ready(()=>{
+      let h = Number($("#pageHeadPart").height())
+      $("#logsSection").css("top","101px")
+    })
+    setInterval(()=>{
+    let now=new Date()
+    now=now.getTime()+(now.getTimezoneOffset()*60*1000)
+    let n=new Date(now)
+    let endTime=new Date(n.getFullYear(),n.getMonth(),n.getDate(),23,59,59,999)
+    let diff=endTime.getTime()-now
+    let h=parseInt(diff/1000/60/60)
+    diff-=h*60*60*1000
+    let m=parseInt(diff/1000/60)
+    diff-=m*60*1000
+    let s=parseInt(diff/1000)
+    $("#logsTimeHour").text(h)
+    $("#logsTimeMinuts").text(m)
+    $("#logsTimeSec").text(s)},1000)
+  })
+  
+</script>

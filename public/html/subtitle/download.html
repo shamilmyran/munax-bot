@@ -1,0 +1,234 @@
+<div id="subDlMain">
+  {{#each subs}}
+  <div url="{{{this.url}}}">
+    <div style="position: absolute;width:100%;height:100%;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:1;align-content:center">
+      <span class="fa-solid fa-file-arrow-down" style="font-size:20px"></span>
+      {{{plainStringSpan this.title}}}
+    </div>
+    <svg>
+      <rect rx="10" x="2" y="2"></rect>
+    </svg>
+    <div style="top:1.4%;bottom:3.6%;right:4.3%;left:.7%;position:absolute;z-index:-1;display:flex;align-items:flex-end">
+      <div style="width:100%;background:var(--tg_grey);border-radius:10px;display:flex;justify-content:center;align-items:center;transition:1s;">
+      </div>
+    </div>
+  </div>
+  {{/each}}
+  
+  <script>
+    $(document).ready(async()=>{
+      let sh=$("#subDlMain>div>svg>rect:first-child").height()-20,
+      sw=$("#subDlMain>div>div:first-child").width()-20
+      
+      function getPos(max){
+        return Math.floor(10+(Math.random()*(max-10)))
+      }
+      
+      function findAPos(w,h,l,t){
+        let pos=["l","r","t","b"],
+        curPos
+        
+        if(l==0)curPos="l"
+        else if(l+w==sw)curPos="r"
+        else if(t==0)curPos="t"
+        else if(t+h==sh)curPos="b"
+        else curPos="b"
+        
+        pos=pos.filter(x=>x!=curPos)[Math.floor(Math.random()*3)]
+        
+        let spos
+        
+        if(pos==="l")spos=[0,getPos(sh)]
+        else if(pos==="r")spos=[sw-w,getPos(sh)]
+        else if(pos==="t")spos=[getPos(sw-w),0]
+        else if(pos==="b")spos=[getPos(sw-w),sh-h]
+        
+        return spos
+      }
+       
+       let curUrl=""
+      function loopAnimation(e,url){
+        let w=$(e).width(),
+        h=$(e).height(),
+        l=Number($(e).css("left").replace("px","")),
+        t=Number($(e).css("top").replace("px",""))
+        
+        let [x,y]=findAPos(w,h,l,t)
+        
+        $(e).css({animation:`${Math.random()*2<1?"zeroGravClock":"zeroGravAntiClock"} ${.5+(Math.random()*3.5)}s infinite linear`})
+        $(e).animate({left:x,top:y},1000+(Math.round(Math.random()*2000)),"linear",()=>{
+          if(curUrl!==url) return $(e).css({"animation":"none",left:"auto",top:"auto",position:"relative", transition:"2s"})
+          loopAnimation(e,url)
+        })
+      }
+      
+      for(var x of SUBS){
+        if(REQ_LIM.reqs>15)await sleep(REQ_LIM.wait()+1000)
+        
+        REQ_LIM.addOne()
+        $(`#subDlMain>div[url='${x.url}']`).css("animation","shakeBox 2s infinite")
+        $(`#subDlMain>div[url='${x.url}']>div:first-child>span`).css("position","absolute")
+        
+        //$(`#subDlMain>div[url='${x.url}']>div:first-child`).css({position:"absolute",display:"","justify-content":"","align-items":"","flex-wrap":"",gap:"","align-content":""})
+        $(`#subDlMain>div[url='${x.url}']`)[0].scrollIntoView({behavior:"smooth", inline:"center"})
+        curUrl=x.url
+        $(`#subDlMain>div[url='${x.url}']>div:first-child>span`).map((i,e)=>{
+          loopAnimation(e,x.url)
+        })
+        
+        let file=await $.ajax({url:x.url, processData:false,type:"get",xhr:()=>{
+          let xhr=new XMLHttpRequest()
+         
+          xhr.responseType="arraybuffer"
+          xhr.onprogress=(evt)=>{
+            if(!evt.lengthComputable)return
+            let prog=evt.loaded/evt.total*100
+            let stroke=800-(prog*800/100)
+            
+            $(`#subDlMain>div[url='${x.url}']>svg>rect`).animate({"stroke-dashoffset":stroke},50,"linear")
+            
+            let allLoad = Number(prog/2)
+            $(`#subDlMain>div[url='${x.url}']>div:nth-of-type(2)>div`).animate({height:allLoad+"%"},100,"linear")
+          }
+          return xhr
+        }}).catch(e=>{tg_alert("Something went wrong when downloading this file, so we are skipping this file");return null})
+        if(!file)continue
+        
+        $(`#subDlMain>div[url='${x.url}']>svg>rect`).css({stroke:"#691de5",transition:".5s"})
+        
+        file=new File([file],"filename.gz",{type:"application/gzip"})
+        let formData=new FormData()
+        formData.append("file",file,x.title)
+        formData.append("user",USER.id)
+        
+        await $.post({
+          url:"/subtitle/os/upload",
+          data:formData,
+          processData:false,
+          contentType:false,
+          xhr:()=>{
+            let xhr=new XMLHttpRequest()
+            
+            xhr.upload.onprogress=(evt)=>{
+              if(!evt.lengthComputable)return
+              
+              let prog=evt.loaded/evt.total*100
+              let stroke=(800*prog)/100
+              
+              $(`#subDlMain>div[url='${x.url}']>svg>rect`).animate({'stroke-dashoffset':stroke},50,"linear")
+              
+              let allLoad=50+(prog/2) 
+              $(`#subDlMain>div[url='${x.url}']>div:nth-of-type(2)>div`).animate({height:allLoad+"%"},100,"linear")
+            }
+            
+            return xhr
+          }
+        }).catch(e=>{tg_alert("Something went wrong when trying to upload this file, so we are skipping this request");return null})
+        
+        curUrl=null
+        $("#subDlMain>div[url='"+x.url+"']>div:first-child").css({display:"flex","flex-wrap":"wrap","align-content":"center","align-items":"center",gap:1,"padding-inline":"5px"})
+        $("#subDlMain>div[url='"+x.url+"']").css("animation","none")
+        
+        $(`#subDlMain>div[url='${x.url}']>div:nth-of-type(2)`).css({"z-index":"1"})
+        $(`#subDlMain>div[url='${x.url}']>div:nth-of-type(2)>div`).css({background:"#15b54abb"})
+        $(`#subDlMain>div[url='${x.url}']>div:nth-of-type(2)>div`).html("<i class=\"fa-regular fa-circle-check\" style=\"color:white;font-size:25px\"></i>")
+        $(`#subDlMain>div[url='${x.url}']>div:nth-of-type(2)>div>i`).hide().fadeIn(1000)
+      }
+      
+      await tg_prompt("Subtitles downloaded successfully , so we are closing this window","okey",null)
+      TG.close()
+    })
+  </script>
+  
+  <style type="text/css" media="all">
+    
+    
+    #subDlMain>div>div:first-child>span{
+      position: relative;
+      
+      color: var(--tg_text);
+      
+      left: 0;
+      
+      font-size: 15px;
+    }
+    #subDlMain>div>svg>rect{
+      width: 95%;
+      height: 95%;
+      
+      fill: var(--tg_bg_shade);
+      
+      stroke: #19b944;
+      stroke-width: 3px;
+      stroke-dasharray: 800;
+      stroke-dashoffset: 780;
+      
+      border-radius: 10px;
+    }
+    #subDlMain>div>svg{
+      width: 100%;
+      height: 100%;
+    }
+    #subDlMain>div{
+      min-width: 250px;
+      max-width: 250px;
+      height: 80%;
+      
+      margin-inline: 10px;
+      
+      position: relative;
+    }
+    #subDlMain{
+      width: 100%;
+      height: 100%;
+      
+      display: flex;
+      
+      align-items: center;
+      
+      background: var(--tg_btn_shade);
+      
+      overflow-x: scroll;
+      
+      
+    }
+    
+    @keyframes shakeBox{
+      20%{
+        transform: rotate(-10deg);
+      }
+      30%{
+        transform: rotate(10deg);
+      }
+      40%{
+        transform: rotate(-20deg);
+      }
+      50%{
+        transform: rotate(0deg);
+      }
+      70%{
+        transform: rotate(-30deg);
+      }
+      80%{
+        transform: rotate(-10deg);
+      }
+      90%{
+        transform: rotate(30deg);
+      }
+      100%{
+        transform: rotate(0deg);
+      }
+    }
+    @keyframes zeroGravClock{
+      to{
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes zeroGravAntiClock{
+      to{
+        transform: rotate(-360deg);
+      }
+    }
+  </style>
+</div>
+  

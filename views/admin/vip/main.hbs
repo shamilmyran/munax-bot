@@ -1,0 +1,59 @@
+<section id="newVipAddPart">
+  <div>
+    <span id="addRemoveSpan">Please Select What You Want To Do?</span>
+  </div>
+  <div style="margin-top:100px">
+    <div>
+      <button id="addNewBtn" class="btn btn-success addRemoveBtn" value="add">Add New User</button>
+    </div>
+    <div>
+      <button id="addNewBtn" class="btn btn-danger addRemoveBtn" value="remove">Remove One User</button>
+    </div>
+  </div>
+</section>
+<style>
+  
+  .addRemoveBtn{
+    position: relative;
+    
+    left: 50%;
+    
+    transform: translate(-50%);
+    
+    margin-top: 20px;
+    
+    width: 200px;
+  }
+  #addRemoveSpan{
+    display: flex;
+    
+    justify-content: center;
+    
+    margin-top: 100px;
+    
+    color: #c76ce9;
+    
+    text-shadow: 0 0 5px #e65dd9;
+    
+    font-size: 18px;
+    font-weight: 500;
+  }
+</style>
+
+<script type="text/javascript">
+  $(".addRemoveBtn").click((e)=>{
+    var m=$(e.target).val()
+    loading("body")
+    $.ajax({
+      url:"/html",
+      type:"post",
+      dataType:"text",
+      data:{
+        path:"/html/admin/vip/"+m
+      },
+      success:(html)=>{
+        $("#newVipAddPart").html(html)
+      }
+    })
+  })
+</script>

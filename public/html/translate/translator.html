@@ -1,0 +1,227 @@
+<section id="google_translate_element" hidden=""></section>
+<section id="transElmSec">
+</section>
+
+<style type="text/css" media="all">
+  body iframe{
+    display: none;
+  }
+  #transElmSec{
+    width: 500%;
+    height: var(--tg-viewport-height);
+    
+    position: fixed;
+    
+    visibility: hidden;
+    
+    
+    /*background: white;*/
+    
+  }
+  #transElmSec>div{
+    width: 100%;
+    height: 100%;
+    
+    overflow-y: scroll;
+    
+    display: flex;
+    flex-wrap: wrap;
+    
+    align-content: flex-start;
+  }
+  #transElmSec>div>div{
+    font-size: 5px;
+    
+    height: 6px;
+    width: auto;
+  }
+  /*body>div>div>svg{
+    display: none !important;
+  }*/
+</style>
+
+<script type="text/javascript" charset="utf-8">
+  function googleTranslateInit(){
+    new google.translate.TranslateElement({pageLanguage: 'auto', format:"text"}, 'google_translate_element');
+    
+    tg_load(true)
+    checkLang()
+  }
+</script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateInit"></script>
+
+<script type="text/javascript" charset="utf-8">
+  let TRANS_TEXT=[],
+  TRANSED_TEXT={}
+  let TR_STS=false,
+  TR_SHOW=false,
+  CRT_TR=false
+  
+  function show_not(id,j){
+    for(var i=0;i<j;i++){
+      if(!TRANSED_TEXT[id][i])console.log(i);
+    }
+  }
+  
+  function START_TRANS_LOOP(){
+    TR_STS=true
+    if(!TRANS_TEXT.length){
+      TR_STS=false
+      return
+    }
+    let {id,data:text}=TRANS_TEXT.shift()
+    text=text.split("\n")
+    
+    let html=text.reduce((t,c,i)=>{
+      return t+`<div class="translate" ind="${i}">${c}</div>`
+    },'')
+    
+    $("#transElmSec").append(`<div fileid="${id}" inds="${text.length}">${html}</div>`)
+    
+    START_TRANS(id)
+    return
+  }
+  
+  function START_TRANS(id){
+    
+    if(!TR_SHOW){
+      TR_SHOW=true
+      
+      var selectElement = document.querySelector('#google_translate_element select');
+      selectElement.value = window.localStorage.getItem("lang");
+      selectElement.dispatchEvent(new Event('change'));
+      $("body>div>div>svg").parent().parent().attr("hidden","")
+    }
+    
+    let completed=0,
+    total=Number($(`#transElmSec>div[fileid="${id}"]`).attr("inds"))
+    $(`#batchTransSec div[fileid=${id}]`).attr("translate","true")
+    $(`div[fileid="${id}"] .tr_prog`).css({background:"var(--tr_prog_blue)",width:"0%"})
+    $(`div[fileid=${id}] .tr_sts`).text("Translating...")
+   
+    let progint=setInterval(progress,2000);
+    $(`#transElmSec>div[fileid="${id}"]>div`).on("DOMSubtreeModified",async e=>{
+      $(e.currentTarget).off()
+      await sleep(200)
+      completed++
+      let ind=$(e.currentTarget).attr("ind")
+      TRANSED_TEXT[id][ind]=$(e.currentTarget).text()
+      $(e.currentTarget).remove()
+      
+      if(completed===total-1){
+        $(`#transElmSec>div[fileid=${id}]`).remove()
+        START_TRANS_LOOP()
+        clearInterval(progint)
+        completed=total
+        progress()
+        UPLOAD_FILE(id)
+      }
+    })
+    let complete_trans=false,
+    process_start=Date.now()
+    
+    function progress(){
+      let width=Math.floor(completed/total*100)
+      $(`div[fileid="${id}"] .tr_prog`).animate({width:width+"%"},200,"linear")
+      $(`div[fileid="${id}"] .tr_prog_text`).text(width+"%")
+      let stroke=94.5-((width/100*50)*126/100)
+      $(`div[fileid=${id}] circle`).animate({"stroke-dashoffset":stroke},200,"linear")
+      
+      
+      if(width>90&&!complete_trans){
+        complete_trans=true
+        
+        let timeout=Math.ceil(((Date.now() - process_start)/90)*20)
+        timeout=(timeout<5000&&5000)||timeout
+        setTimeout(function() {
+          if(!$(`#transElmSec>div[fileid=${id}]`).length)return
+          tg_alert("We are completing your request")
+          $(`#transElmSec>div[fileid=${id}]>div`).each((i,e)=>{
+            $(e).append("<br>")
+          })
+        }, timeout);
+      }
+    }
+    
+  }
+  
+  /*async function START_TRANS(){
+    TR_STS=true
+    
+    if(!TR_SHOW){
+      TR_SHOW=true
+      
+      var selectElement = document.querySelector('#google_translate_element select');
+      selectElement.value = window.localStorage.getItem("lang");
+      selectElement.dispatchEvent(new Event('change'));
+      $("body>div>div>svg").parent().parent().attr("hidden","")
+      
+      await sleep(1000)
+    }
+    
+    let texts=[]
+    TRANS_TEXT=TRANS_TEXT.reduce((t,c)=>{
+      if(c.data.length){
+        texts.push({text:c.data.splice(0,1)[0],id:c.id,parts:c.parts,part:++c.part})
+        t.push(c)
+        return t
+      }
+      UPLOAD_FILE(c.id)
+      return t
+    },[])
+    
+    if(!texts.length){
+      TR_STS=false
+      return
+    }
+    
+    for(var text of texts){
+      
+      $("#transElmSec").html("<p></p>")
+      $("#transElmSec>p").html(text.text.replace(/\n/g," . ∆∆ . "))
+      
+      $("body iframe").contents().find("button").get(0).click()
+      
+      await sleep(100)
+      var i=0
+      while(true){
+        if(!/^<(font|FONT) /.test($("#transElmSec>p").html())){
+          await sleep(100)
+          i++
+          if(i===150){
+            i=0
+            tg_alert("Poor internet connection \nTranslation may take little while")
+          }
+          continue
+        }
+        break;
+      }
+      await sleep(100)
+      
+      let perceDiff=100/text.parts,
+      perc=perceDiff*text.part,
+      id=text.id
+      
+      if(text.part===1){
+        $(`div[fileid=${id}] .tr_prog`).css({background:"var(--tr_prog_blue)"})
+        $(`div[fileid=${id}] .tr_sts`).text("Translating...")
+      }
+      let wait=20;
+      let ms=perceDiff/10
+      $(`div[fileid=${id}] .tr_prog_text`).text(parseInt(perc)+"%")
+      $(`div[fileid=${id}] .tr_prog`).animate({width:perc+"%"},100,"linear")
+      
+      text.text=$("#transElmSec>p").text()/*.replace(/(\.){0,1}\s*(∆∆|∆\s+∆|∆)\s*(\.){0,1}/g,"\n")+"\n"
+      //alert(text.text.split("\n").length)
+      var i=TRANSED_TEXT.findIndex(x=>x.id==text.id)
+      if(i===-1){
+        TRANSED_TEXT.push({id:text.id,text:text.text})
+      }else{
+        TRANSED_TEXT[i].text+=text.text
+      }
+    }
+    START_TRANS()
+  }*/
+    
+  
+</script>

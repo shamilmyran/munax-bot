@@ -1,0 +1,539 @@
+<section id="instagram-media-section" class="col-12">
+  <div id="instaHeaderSection" class="col-12">
+    <div id="insta_header_background" class="col-12"></div>
+    <div class="col-12" id="insta_header_content">
+      <div id="dropDownBack" class="col-1">
+        <i class="fa fa-bars" style="color:white" id="dropDown"></i>
+      </div>
+      <div id="insta_header_icon_part" class="col-5 col-md-3">
+        <img src="/images/icon.png" alt="tgway icon" height="90%" onclick="window.location.href='/'"></img>
+      </div>
+      <div id="insta_header_text_part" class="col-6 col-md-5">
+        <h3 style="margin-left:10%">TGWAY</h3>
+      </div>
+    </div>
+  </div>
+  <div id="insta_content_section" class="col-12" style="padding:10px">
+    {{#if media.caption}}
+       <div id="media_caption_part" class="col-12 col-md-6 content_part">
+         <div>
+         <span id="caption_head" class="col-12">{{#if media.title}}{{media.title}}{{else}}{{media.caption.text}}{{/if}}</span>
+         <div id="caption_user_data">
+           <img src="/instagram/getFile?url={{#EncUrl media.user.profile_pic_url}}{{this}}{{/EncUrl}}" class="col-2 col-md-1" alt="profile_pic">
+           <div class="col-8">
+             <span>{{media.user.username}}</span>
+           </div>
+         </div>
+         <div id="caption_data">
+             <span class="caption_datas"><b>Full Name : </b>{{media.user.full_name}}</span>
+             <span class="caption_datas"><b>caption : </b>{{media.caption.text}}</span>
+         </div>
+         </div>
+       </div>
+     {{/if}}
+    {{#ifOrIf media.thumbnails.sprite_urls.[0] media.image_versions2.candidates.[0].url}}
+      <div id="video_thumb_part" class="col-12 col-md-6 content_part">
+        <div>
+        <img src="/instagram/getFile?url={{#EncUrl this}}{{this}}{{/EncUrl}}" class="col-9" alt="video_thumbnile">
+        <div id="thumb_down_part" class="down_part" value="{{{this}}}">
+          <button class="down_btn"><i class="fa fa-arrow-circle-down"></i></button>
+        </div>
+        </div>
+      </div>
+    {{/ifOrIf}}
+    {{#availOne media.video_versions media.image_versions2}}
+     <div id="media_qlty_part" class="col-12 col-md-6 content_part border border-success">
+      <div class="col-11 pb-5">
+        <div class="col-12 rows">
+          <span class="col-4 row_head">Qlty</span>
+          <span class="col-4 row_head">Type</span>
+          <span class="col-4 row_head">Select</span>
+        </div>
+        {{#each this}}
+          <div class="col-12 rows">
+            <span class="col-4 row_elm">{{this.width}}x{{this.height}}</span>
+            <span class="col-4 row_elm">{{#if ../../media.video_versions.[0]}}video{{else}}image{{/if}}</span>
+            <span class="col-4 down_part_back">
+              <div class="down_part" value="{{this.url}}">
+                <button class="down_btn"><i class="fa fa-arrow-circle-down"></i></button>
+              </div>
+            </span>
+          </div>
+        {{/each}}
+      </div>
+     </div>
+    {{/availOne}}
+    {{#if media.carousel_media}}
+       <div class="content_part col-12 col-md-6" id="carousel_media_part">
+         <div class="col-12">
+         {{#each media.carousel_media}}
+           <div class="carousel_thumb_back col-6 col-md-3">
+             <img src="/instagram/getFile?url={{#EncUrl this.image_versions2.candidates.0.url}}{{this}}{{/EncUrl}}">
+             <div class="carousel_media_referer">
+               <i class="fa {{#if this.video_versions}}fa-play{{else}}fa-image{{/if}}"></i>
+             </div>
+             <div class="carousel_media_select_part">
+               <button class="carousel_media_select_btn"><a href="/instagram/media?id={{this.id}}" >View Data</a></button>
+             </div>
+           </div>
+         {{/each}}
+         </div>
+     </div>
+    {{/if}}
+    <div class="col-12 col-md-6 content_part" id="contact_us_part">
+      <div id="contactUsMessangersBack" class="col-11">
+        <div>
+          <span>If you face any issues,bugs or If you have any suggestions please contact admin </span>
+        </div>
+        <div id="contactUsMessangersTopBack">
+          <a target="_blank" href="instagram://user?username=afsal__shazz_"><button id="contactUsInstaBtn"><i class="fa fa-instagram" style="font-size:28px;color:white"></i></button></a>
+          <a target="_blank" href="tg:resolve?domain=afsalcp66&text=hi"><button id="contactTelegramBtn"><i class="fa fa-telegram" style="font-size:28px;color:white"></i></button></a>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  
+  #contactUsMessangersBack>div>span{
+    color: white;
+  }
+  #contactTelegramBtn{
+    width: 75px;
+    height: 40px;
+    
+    background: #2b96e9;
+    
+    color: white;
+    
+    border: none;
+    border-radius: 5px;
+    
+    transition: .5s;
+    
+    margin-left: 20px;
+  }
+  #contactTelegramBtn:focus{
+    box-shadow: 0 0 0 4px #2c8be6a2;
+  }
+  #contactUsInstaBtn{
+    width: 75px;
+    height: 40px;
+    
+    background: linear-gradient(to bottom left,#9d28d6,#f02b99,#f4c130);
+    
+    color: white;
+    
+    border: none;
+    border-radius: 5px;
+    
+    margin-left: 20px;
+  }
+  #contactUsInstaBtn:focus{
+    box-shadow: 0 0 0 3px #dd318f99;
+  }
+  #contactUsMessangersTopBack{
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    
+    margin-top: 20px;
+  }
+  #contact_us_part>div{
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  #contact_us_part{
+    display: flex;
+    justify-content: center;
+  }
+  #dropDownBack{
+      height: 100%;
+      
+      display: flex;
+      
+      justify-content: right;
+      align-items: center;
+    }
+    #dropDownBack i{
+      font-size: 20px;
+    }
+  .carousel_media_select_part>button{
+    width: 90px;
+    height: 40px;
+    
+    background: #ffffffb2;
+    color: black;
+    
+    border: solid 1px white;
+    border-radius: 5px;
+    
+  }
+  .carousel_media_select_part>button>a{
+    text-decoration: none;
+  }
+  .carousel_thumb_back:hover>.carousel_media_select_part{
+    display: flex;
+  }
+  .carousel_media_select_part{
+    position: absolute;
+    
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    display: none;
+    
+    justify-content: center;
+    align-items: center;
+    
+    
+  }
+  .carousel_thumb_back:hover>img{
+    filter: blur(3px);
+  }
+  .carousel_thumb_back:hover>.carousel_media_referer{
+    filter: blur(3px);
+  }
+  .carousel_media_referer>i{
+    font-size: 28px;
+    
+    color: #ffffffbf;
+  }
+  .carousel_media_referer{
+    position: absolute;
+    
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  .carousel_thumb_back img{
+    max-width: 90%;
+    max-height: 98%;
+    
+    border-radius: 10px;
+    border: solid 1px white;
+    
+    position: relative;
+    
+    left: 50%;
+    top: 50%;
+    
+    transform: translate(-50%,-50%);
+    
+    transition: .3s;
+  }
+  .carousel_thumb_back{
+    height: 200px;
+    
+    position: relative;
+  }
+  #carousel_media_part{
+    border-radius: 10px;
+    border: solid 1px #ff005e;
+  }
+  #carousel_media_part>div{
+    display: flex;
+    
+    flex-flow: row wrap;
+    
+    justify-content: center;
+    align-items: space-between;
+  }
+  #insta_content_section{
+    display: flex;
+    
+    flex-flow: row wrap;
+    
+    justify-content: space-between;
+    align-content: space-between;
+    
+    margin-bottom: 50px;
+  }
+  #media_caption_part>div{
+    
+    display: flex;
+    
+    flex-direction: column;
+    
+    justify-content: center;
+    text-align: center;
+  }
+  .content_part{
+    height: 350px;
+    
+    overflow: scroll;
+    
+    margin-top: 10px;
+  }
+  .row_elm{
+    color: white;
+    
+    font-family: Georgia;
+  }
+  .row_head{
+    color: #d63671;
+    
+    font-family: header-font;
+    font-weight: bold;
+  }
+  .down_part_back{
+    display: flex;
+    
+    justify-content: center;
+  }
+  .rows>div{
+    text-align: center;
+  }
+  .rows{
+    height: 90px;
+    
+    margin-top: 10px;
+    
+    background: #3b414fc6;
+    
+    border-radius: 10px;
+    
+    display: flex;
+  
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+  #media_qlty_part{
+    border-radius: 10px;
+    
+    display: flex;
+  
+    justify-content: center;
+  }
+  .down_btn{
+    width: 60px;
+    height: 40px;
+    
+    border: none;
+    border-radius: 10px;
+    
+    color: white;
+    
+    font-size: 20px;
+    position: relative;
+    
+    background: linear-gradient(to top right,#FFB802,#FF3665,#FE01D6);
+    
+    animation: download_anim 1s infinite;
+  }
+  
+  @keyframes download_anim{
+    0%{
+      top: 0;
+      
+      transform: translate(0,0%);
+    }
+    50%{
+      top: 100%;
+      
+      transform: translate(0,-100%);
+    }
+    100%{
+      top: 0;
+      transform: translate(0,0%);
+    }
+  }
+  .down_part{
+    width: 60px;
+    height: 60px;
+    
+    background: rgba(255,255,255,0.485);
+    
+    border-radius: 10px;
+    
+    transition: .8s;
+  }
+  .down_part:hover{
+    box-shadow: 0 0 0 3px rgba(119,5,242,0.654);
+    
+    background: #464b4d98;
+  }
+  #thumb_down_part{
+    position: absolute;
+    
+    left: 100%;
+    top: 100%;
+    
+    transform: translate(-100%,-100%);
+  }
+  .caption_datas{
+    color: #FFB802;
+    
+    font-family: Courier New;
+    
+    margin: 10px;
+  }
+  .caption_datas>b{
+    color: #C016F8;
+  }
+  #caption_data{
+    display: flex;
+    
+    flex-direction: column;
+    
+    text-align: left;
+  }
+  #caption_user_data>div{
+    display: flex;
+    
+    justify-content: center;
+  }
+  #caption_user_data>div>span{
+    color: #FF3665;
+    
+    font-family: Courier New;
+    font-weight: bolder;
+    
+    margin-left: 20px;
+  }
+  #caption_user_data img{
+    border-radius: 50%;
+  }
+  #caption_user_data{
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    
+    margin-top: 10px;
+  }
+  #caption_head{
+    white-space: nowrap;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    font-family: header-font;
+    color: white;
+  }
+  #media_caption_part{
+    
+    padding: 10px;
+   
+    border: solid 1px;
+    border-color: #FF3665 #FE01D6 #C016F8 #FFB802;
+    border-radius: 5px;
+    
+    margin-top: 10px;
+  }
+  #video_thumb_part img{
+    position: relative;
+    
+    left: 50%;
+    top: 50%;
+    
+    transform: translate(-50%,-50%);
+    
+    max-height: 350px;
+    max-width: 100%;
+    
+    z-index: 0;
+  }
+  #video_thumb_part>div{
+    position: relative;
+    
+    height: 100%;
+    width: 100%;
+  }
+  #video_thumb_part{
+    
+    margin-top: 10px;
+    
+    border-radius: 10px;
+    
+    border: solid 1px #FF3665;
+    
+    overflow: hidden;
+  }
+  #insta_header_text_part h3{
+    color: white;
+    
+    font-family: header-font;
+    
+    letter-spacing: 2px;
+  }
+  #insta_header_content{
+    position: absolute;
+    
+    
+    height: 100px;
+    
+    top: 0;
+    
+    display: flex;
+    
+    justify-content: center;
+  }
+  #insta_header_icon_part{
+    height: 100%;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  #insta_header_text_part{
+    height: 100%;
+    
+    display: flex;
+   
+    align-items: center;
+  }
+  #instaHeaderSection{
+    position: relative;
+    height: 100px;
+  }
+  #insta_header_background{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    
+    height: 100%;
+  
+    background: linear-gradient(to top right,#FFB802,#FF3665,#FE01D6);
+    
+    filter: blur(2px);
+    -webkit-filter:blur(2px);
+  }
+</style>
+
+<script>
+  $(".down_part").click(e=>{
+    toast("waiting for file download")
+    let url=$(e.currentTarget).attr("value")
+    let filename=`{{#if media.title}}{{media.title}}{{else}}{{#if media.caption}}{{media.caption.text}}{{else}}${Date.now()}{{/if}}{{/if}}`.slice(0,30)
+    window.location.href=`/instagram/download/?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(filename)}`
+  })
+  $("#dropDownBack").click(()=>{
+      loading('body')
+      $.ajax({
+        url:'/html',
+        type:"post",
+        dataType:'text',
+        data:{
+          path:'/html/dropDown'
+        },
+        success:(html)=>{
+          $('body').append(html)
+        }
+      })
+    })
+</script>

@@ -1,0 +1,34 @@
+<section id="viewCountSection" style="padding:12px">
+  {{#if data}}
+  {{#each data}}
+  <div class="col-12 col-md-6">
+    <div class="viewCountPart border border-primary rounded">
+      <input class="urlLabel form-control" value="{{this.link}}" readonly="true">
+      <br/>
+      <br>
+      <label class="text text-success countText">{{this.count}}</label>
+    </div>
+  </div>
+  {{/each}}
+  {{else}}
+  <label> No Data Found</label>
+  {{/if}}
+</section>
+<style>
+  .viewCountPart{
+    display: block;
+    text-align: center;
+    
+    padding: 10px;
+  }
+  .urlLabel{
+    font-size: 20px;
+    font-family: Courier;
+    font-weight: bold;
+  }
+  .countText{
+    font-size: 18px;
+    font-family: Sans-Serif;
+    font-weight: bold;
+  }
+</style>

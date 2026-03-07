@@ -1,0 +1,105 @@
+<section id="waitingTimeSection">
+  <section id="waitingTimeDecaration">
+    <div class="index-center">
+      <script async="async" data-cfasync="false" src="//pl16642504.effectivecpmgate.com/1e5d0d99aeeddf095f91d357db7e70f9/invoke.js"></script>
+<div id="container-1e5d0d99aeeddf095f91d357db7e70f9"></div>
+    </div>
+  <div id="waiteTimePart">
+    <div id="spinner"></div>
+    <div id="timeCountPart">
+      <label id="timeCount" class="text text-success"> </label>
+    </div>
+  </div>
+  </section>
+</section>
+<style>
+  #waiteTimePart {
+    position: fixed;
+
+    width: 80px;
+    height: 80px;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+
+  }
+  #spinner {
+    width: 80px;
+    height: 80px;
+
+    border-radius: 50%;
+
+    animation: spin 0.8s infinite;
+  }
+@keyframes spin{
+  0%{
+    border-top: solid 2px #1ed156;
+  }
+  25%{
+    border-right: solid 2px #1ed156;
+  }
+  50%{
+    border-bottom: solid 2px #1ed156;
+  }
+  75%{
+    border-left: solid 2px #1ed156;
+  }
+  100%{
+    border: none;
+  }
+}
+#timeCountPart{
+  width: 100px;
+  height: 100px;
+  
+  position: fixed;
+  
+  top: 50%;
+  left: 50%;
+  
+  transform: translate(-50%,-50%);
+  
+  display: flex;
+  
+  justify-content: center;
+  text-align: center;
+  
+  margin-top: 30px;
+  
+}
+#timeCount{
+  font-size: 35px;
+  
+  text-shadow: 4px 5px 5px #1f262b9b;
+}
+#waitingTimeSection{
+  
+  background: linear-gradient(to left,#292747,#2c233b);
+}
+#waitingTimeDecaration{
+  
+  background: linear-gradient(to top, transparent,100px,#a69fbd,#809aeb);
+}
+
+</style>
+<script>
+  var time=8
+  function timeChanger(){
+    if(time){
+      $("#timeCount").text(time)
+      time-=1
+      setTimeout(()=>{
+        timeChanger()
+      },1000)
+    }else{
+      $("#timeCount").text(time)
+      var data=location.href
+      data=data.split("/?")[1]
+      location.href=`/pageChanger/?data=${data||""}`
+    }
+  }
+  timeChanger()
+</script>
+<script type='text/javascript' src='//pl16642523.effectivecpmgate.com/50/29/67/502967b39eac2b1e0591554e1b838465.js'></script>

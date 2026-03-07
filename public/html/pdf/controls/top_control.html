@@ -1,0 +1,107 @@
+<section id="elementTopControls" class="navigationSec">
+  <div class="btn_active_tg" for="fullscreen">
+    <i class="fa-solid fa-expand" hint="Expand Screen if it is closed automatically"></i>
+  </div>
+  <div class="btn_active_tg" for="align-left">
+    <i class="fa-solid fa-angle-left" hint="Control alignments of the current elements to left side"></i>
+  </div>
+  <div class="btn_active_tg" for="align-top">
+    <i class="fa-solid fa-angle-up" hint="Control alignments of the current elements to up side"></i>
+  </div>
+  <div class="btn_active_tg" for="align-bottom">
+    <i class="fa-solid fa-angle-down" hint="Control alignments of the current elements to down side"></i>
+  </div>
+  <div class="btn_active_tg" for="align-right">
+    <i class="fa-solid fa-angle-right" hint="Control alignments of the current elements to right side"></i>
+  </div>
+  <div class="btn_active_tg" for="element-success" tool_name="{{tool}}">
+    <i class="fa-regular fa-square-check" hint="Editing on this element was compleated"></i>
+  </div>
+  <style type="text/css" media="all">
+    
+    #elementTopControls>div>i{
+      font-size: 20px;
+      
+      color: white;
+    }
+    #elementTopControls>div{
+      width: 30px;
+      height: 50px;
+      
+      display: flex;
+      
+      justify-content: center;
+      align-items: center;
+    }
+    #elementTopControls{
+      position: fixed;
+      
+      top: 0;
+      
+      width: 100%;
+      height: 50px;
+      
+      display: flex;
+      
+      justify-content: space-around;
+      align-items: center;
+      
+      
+      background: var(--tg_shade);
+      
+      visibility: hidden;
+    }
+  </style>
+  
+  <script type="text/javascript" charset="utf-8">
+    ;(async()=>{
+      $(".navigationSec").css({animation:"topNavVis .5s 1"})
+      await sleep(500)
+      $(".navigationSec").hide()
+      $("#elementTopControls").show().css({animation:"topNavVis .5s 1 reverse",visibility:"visible"})
+    })()
+    
+    $("#elementTopControls>div").on("click",async(e)=>{
+      let f=$(e.currentTarget).attr("for")
+      
+      if(f==="fullscreen")return fullscreen()
+      if(f==="element-success"){
+        let tool=$(e.currentTarget).attr("tool_name")
+        if(CURRENT_ELM.submit&&!CURRENT_ELM.submit())return tg_alert(CURRENT_ELM.err||"something went wrong")
+        tg_load()
+        await sleep(100)
+        element_editor.add()
+        let html=$("#"+CURRENT_ELM.id+">.main_element").html()
+        $("#"+CURRENT_ELM.id).html(`<div class="main_element">${html}</div>`)
+        $(".elementToolSec").css({animation:"bottomCtrlVsbl .5s 1"})
+        $("#elementTopControls").css({animation:"topNavVis .5s 1"})
+        await sleep(500)
+        $(".elementToolSec").remove()
+        $("#navigationSec").show().css({animation:"topNavVis .5s 1 reverse"})
+        $("#toolsSection").show().css({animation:"bottomCtrlVsbl .5s 1 reverse"})
+        CURRENT_ELM=null
+        tg_load(true)
+        $("#elementTopControls").remove()
+        //alert(html)
+        
+      }
+    })
+    
+    var aligning=false
+    $("#elementTopControls>div[for]").on("mousedown touchstart",e=>{
+      let f=$(e.currentTarget).attr("for")
+      if(f==="fullscreen")return
+      
+      aligning=true
+      if(f==="align-left") ALIGNMENT_BTN.align_left()
+      else if(f==="align-top")ALIGNMENT_BTN.align_top()
+      else if(f==="align-bottom")ALIGNMENT_BTN.align_bottom()
+      else if(f==="align-right") ALIGNMENT_BTN.align_right()
+      
+    })
+    $(document).on("mouseup touchend",()=>{
+      if(aligning)ALIGNMENT_BTN.stop()
+      return
+    })
+  </script>
+</section>

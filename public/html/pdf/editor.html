@@ -1,0 +1,25 @@
+{{#if html}}
+  {{{html}}}
+{{else}}
+<section id="editorSection">
+  <style type="text/css" media="all">
+    #editorSection{
+      width: var(--tg_width);
+      height: var(--tg_height);
+      
+      background: white;
+      
+      position: relative;
+      
+      left: 50%;
+      
+      transform: translate(-50%);
+      
+      box-shadow: 0 0 10px 3px var(--tg_shade);
+      
+      top: var(--tg_editor_top);
+    }
+  </style>
+</section>
+<script src="/javascripts/editor_touches.js" type="text/javascript" charset="utf-8"></script>
+{{/if}}

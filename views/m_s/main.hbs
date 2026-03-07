@@ -1,0 +1,119 @@
+<section id="rediarecingSection">
+  <div id="telegramJoinPart">
+    <button id="telegramJoinBtn" class="btn">Join Telegram <i class="fa fa-telegram"></i></button>
+  </div>
+  <div class="index-center">
+  <script type="text/javascript">
+	atOptions = {
+		'key' : '433f7b46529666fcb453dab01a090969',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+	document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.highperformancedformats.com/433f7b46529666fcb453dab01a090969/invoke.js"></scr' + 'ipt>');
+</script>
+</div>
+ <div class="index-center">
+  <script type="text/javascript">
+	atOptions = {
+		'key' : '0525a5d1702020438045194e50c76af3',
+		'format' : 'iframe',
+		'height' : 250,
+		'width' : 300,
+		'params' : {}
+	};
+	document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.highperformancedformats.com/0525a5d1702020438045194e50c76af3/invoke.js"></scr' + 'ipt>');
+</script>
+</div>
+<div id="rediarecingPart">
+  <div id="rediarecingPart">
+    <button id="rediarecingBtn" class="btn">GET <i class="fa fa-link"></i></button>
+  </div>
+<div class="index-center">
+<script type="text/javascript">
+	atOptions = {
+		'key' : '1fdc484892e4dc706b30357be74b627b',
+		'format' : 'iframe',
+		'height' : 300,
+		'width' : 160,
+		'params' : {}
+	};
+	document.write('<scr' + 'ipt type="text/javascript" src="http' + (location.protocol === 'https:' ? 's' : '') + '://www.highperformancedformats.com/1fdc484892e4dc706b30357be74b627b/invoke.js"></scr' + 'ipt>');
+</script>
+</div>
+  
+  <input type="text" value="{{data}}" id="redirectUrl" hidden="true">
+</section>
+
+<style>
+  #rediarecingPart{
+    position: relative;
+    
+    height: 150px;
+    width: 150px;
+    
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%,-50%);
+  }
+  #rediarecingBtn{
+    position: relative;
+    
+    width: 80px;
+    height: 80px;
+    
+    background:#1f9a40;
+    
+    color: white;
+    
+    font-family: Courier New;
+    font-size: 20px;
+    font-weight: bold;
+    
+    border: none;
+    border-radius: 50%;
+    
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%,-50%);
+    
+    animation: wave infinite 1s;
+  }
+  
+  #telegramJoinBtn{
+    background: #0e81cd;
+    
+    color: white
+  }
+  #telegramJoinPart{
+    width: 100%;
+    
+    margin-top: 30px;
+    
+    display: flex;
+    
+    justify-content: center;
+  }
+</style>
+<script>
+  $("#rediarecingBtn").click(()=>{
+    var url=$("#redirectUrl").val()
+    if(url){
+      $.ajax({
+        url:"/admin/viewCount/update",
+        type:"POST",
+        dataType:"json",
+        data:{
+          url
+        },
+        success:(res)=>{
+          location.href=url
+          
+        }
+      })
+    }else alert("There is no links in your request")
+  })
+</script>

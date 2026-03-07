@@ -1,0 +1,106 @@
+<section id="instaTimoutSection">
+  <div class="col-12 mt-5">
+    <span id="plsWSpan">Please wait few seconds...</span>
+  </div>
+  <div id="countDown">
+    <div style="width:100%;height:100%;position:relative">
+      <span id="count">00</span>
+    </div>
+  </div>
+  <p id="timeReson">Due to instagram restriction i can only download medias 1/15s. <b>After count down end you will be automatically redirected to the original page</b></p>
+</section>
+
+<style >
+  
+  #timeReson{
+    position: fixed;
+    
+    bottom: 5%;
+    
+    transform: translate(0,-5%);
+    
+    color: white;
+    
+    font-family: Courier New;
+    
+    text-align: center;
+  }
+  #countDown>div{
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+  }
+  #countDown>div>span{
+    color: #57e580;
+    
+    font-size: 28px;
+    font-family: Courier New;
+    font-weight: bold;
+    
+    text-shadow: 3px 3px 3px #e954c4;
+  }
+  #countDown{
+    position: fixed;
+    
+    width: 100px;
+    height: 100px;
+    
+    top: 50%;
+    left: 50%;
+    
+    transform: translate(-50%,-50%);
+    
+    border: solid 1px #5488e7;
+    border-radius: 50%;
+    
+    transition: .5s;
+    
+    animation: countAnm .5s infinite;
+  }
+  @keyframes countAnm{
+    0%{
+      border-color: #5488e7;
+      border-top-color: #e13e5f;
+    }
+    25%{
+      border-color: #5488e7;
+      border-left-color: #e13e5f;
+    }
+    50%{
+      border-color: #5488e7;
+      border-bottom-color: #e13e5f;
+    }
+    75%{
+      border-color: #5488e7;
+      border-right-color: #e13e5f;
+    }
+  }
+  #plsWSpan{
+    display: flex;
+    
+    justify-content: center;
+    
+    color: #ee4244;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+</style>
+
+<script >
+  let time={{time}}
+  let now =new Date()
+  //let=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate(),now.getHours(),now.getMinutes(),now.getSeconds())
+  now=Date.now()
+  let diff=parseInt(Math.abs((time-now)/1000))
+  
+  ;(async()=>{
+    while(diff>0){
+      $("#count").text(diff)
+      await sleep(1000)
+      diff--
+    }
+    window.location.href="{{{loc}}}"
+  })()
+</script>

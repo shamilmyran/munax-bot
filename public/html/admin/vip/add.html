@@ -1,0 +1,173 @@
+<section id="addNewVipAdminSection">
+  <form  accept-charset="utf-8" method="post" action="/admin/vip/add">
+    <span class="inpLabelSpan col-8">
+      <label for="userId">Enter User Id</label>
+      <input type="number" name="userId" id="userId" placeholder=" Enter User Id" class="col-12" required="true" />
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="userName">User Name</label>
+      <input type="text" name="userName" id="userName" class="col-12" readonly=""/>
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="planName">Select Plan Name</label>
+      <select name="planName" id="planName" class="col-12" required>
+        <option value="">select plan name</option>
+      </select>
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="planType">Plan Type</label>
+      <input type="text" name="planType" id="planType" readonly="" />
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="valuePlan">Plan Value</label>
+      <input type="text" name="valuePlan" id="valuePlan" readonly="" />
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="planValid">Plan Valid</label>
+      <input type="number" name="planValid" id="planValid" readonly="" />
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="limitPlan">Plan Limit</label>
+      <input type="number" name="limitPlan" id="limitPlan" readonly="" />
+    </span>
+    <span class="inpLabelSpan col-8">
+      <label for="planDisc">Plan Limit</label>
+      <textarea name="planDisc" id="planDisc" readonly=""></textarea>
+    </span>
+    <span id="addNewVipAdminBtn">
+      <button type="submit" onclick="return confirm('Are You Sure Want To Add The User')">Add</button>
+    </span>
+  </form>
+  <script type="text/javascript" charset="utf-8">
+    let plans
+    $.ajax({
+      url: "/getPlan", type: "get", dataType: "json"
+    }).then((res)=> {
+      if (res.sts) {
+        plans = res.plans
+        res.plans.forEach((e, i)=> {
+          e = `
+          <option>${e.plan}</option>
+          `
+          $("#planName").append(e)
+        })
+        loading("", true)
+      } else toast("Unexpected Error\n"+res.msg)
+    })
+    $("#planName").on("change blur",()=> {
+      var planName = $("#planName").val()
+      if (planName.length) {
+        var plan = plans.filter(x=>x.plan === planName)[0]
+        $("#valuePlan").val(`® ${plan.price.inr}   $ ${plan.price.doller}`)
+        $("#planValid").val(plan.valid)
+        $("#limitPlan").val(plan.limit)
+        $("#planType").val(plan.type)
+        $("#planDisc").text("* "+plan.gain.join("\r\n* "))
+      } else toast("Please Select A Plan", "error")
+    })
+    $("#userId").blur(()=>{
+      var userId=Number($("#userId").val())
+      if(userId>0&&String(userId).length>=6){
+        loading("body")
+        $.ajax("/admin/getUser?id="+userId).then(res=>{
+          if(res.sts){
+            loading("",true)
+            $("#userName").val((res.data.first_name||"")+" "+(res.data.last_name||""))
+          }else{
+            if(res.includes("adminLoginPart"))window.location.reload()
+            else{
+              toast(res.err,"err")
+            }
+          }
+        })
+      }else toast("User Id You entered is wrong please check th user id","error")
+    })
+
+  </script>
+  <style type="text/css" media="all">
+     
+     #addNewVipAdminBtn button{
+       width: 90px;
+       height: 35px;
+       
+       position: relative;
+       
+       left: 50%;
+       
+       transform: translate(-50%);
+       
+       margin-top: 20px;
+       
+       background: #41ce6c;
+       
+       color: white;
+       
+       border: none;
+       border-radius: 5px;
+       
+       font-family: cursive;
+       font-weight: 1000;
+     }
+    #addNewVipAdminSection label {
+      color: #a78be9;
+
+      font-family: Courier;
+      font-weight: bold;
+
+      margin-top: 10px;
+    }
+    #addNewVipAdminSection form {
+      margin-top: 30px;
+    }
+    .inpLabelSpan {
+      display: flex;
+
+      flex-direction: column;
+
+      position: relative;
+
+      left: 50%;
+
+      transform: translate(-50%);
+    }
+    #addNewVipAdminSection input,#addNewVipAdminSection  select,#addNewVipAdminSection textarea {
+      height: 35px;
+
+      background: none;
+
+      border: solid 1px #75ec99;
+      border-radius: 5px;
+
+      position: relative;
+
+      left: 50%;
+
+      transform: translate(-50%);
+
+      margin-top: 10px;
+
+      color: white;
+
+      outline: none;
+
+      transition: 0.8s;
+
+      text-align: center;
+    }
+    #addNewVipAdminSection input::placeholder {
+      color: white;
+    }
+    #addNewVipAdminSection input:focus,
+    #addNewVipAdminSection select:focus,
+    #addNewVipAdminSection textarea:focus {
+      box-shadow: 0 0 0 4px #66f7cba7;
+
+      color: #75ec99;
+    }
+    #addNewVipAdminSection textarea {
+      height: 100px;
+      
+      text-align: left;
+    }
+  </style>
+</section>

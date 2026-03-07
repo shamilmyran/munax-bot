@@ -1,0 +1,444 @@
+body{
+  background-image: var(--tg_bg_img);
+  background-color: var(--tg_bg);
+  
+  background-size: auto var(--tg-viewport-height);
+  
+  transition: .5s;
+  
+  overscroll-behavior: contain;
+  
+  position: relative;
+  
+  font-family: Regular;
+}
+#tgLoadPart{
+  position: fixed;
+  
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  background: #afafaf4b;
+  
+  z-index: 99;
+}
+
+#tgLoadPart>div{
+  width: 100px;
+  height: 100px;
+  
+  background: var(--load_back);
+  
+  border-radius: 8px;
+  
+  box-shadow: 0 0 5 -1px var(--tg_shade);
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+@keyframes rotsvg{
+ 0%{
+   transform: rotate(0deg);
+ }
+ 100%{
+   transform: rotate(360deg);
+ }
+}
+#tgLoadPart>div>svg{
+  width: 100%;
+  height: 100%;
+  animation: rotsvg .5s linear infinite ;
+}
+
+@keyframes tgLoad{
+  0%{
+    stroke-dashoffset: 220;
+  }
+  100%{
+    stroke-dashoffset: 20;
+  }
+}
+
+#tgLoadPart>div>svg>circle{
+  fill: none;
+  
+  stroke-width: 3.4px;
+  stroke: var(--tg_load);
+  
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  
+  animation: tgLoad 2s infinite linear alternate;
+}
+.btn_opacity{
+  opacity: 1;
+  
+  transition: .2s;
+}
+.btn_opacity:active{
+  opacity: 0.5;
+}
+
+@keyframes tgAlert{
+  90%{
+    bottom: 65px;
+  }
+  95%{
+    bottom: 57px;
+  }
+  100%{
+    bottom: 60px;
+  }
+}
+
+@keyframes tgAlertHide{
+  0%{
+    bottom: 60px;
+  }
+  100%{
+    bottom: 30px;
+  }
+}
+
+.tgAlertSec{
+  position: fixed;
+  
+  left: 20px;
+  right: 20px;
+  bottom: 30px;
+  
+  min-height: 50px;
+  max-height: 100px;
+  
+  background: #2e2e2ec3;
+  
+  border-radius: 5px;
+  
+  animation: tgAlert .5s 1 linear;
+  animation-fill-mode: forwards;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  z-index: 100;
+  
+  color: white;
+  
+  font-family: Regular;
+  font-weight: 300;
+  font-size: 14px;
+}
+.btn_active_tg:active{
+  background: radial-gradient(#ffffff00,var(--tg_btn_color));
+}
+
+.def_img_continer{
+  position: absolute;
+  
+  width: 150px;
+  height: 150px;
+  
+}
+
+@keyframes bottomCtrlVsbl{
+  0%{
+    bottom: 0;
+  }
+  100%{
+    bottom: -50px;
+  }
+}
+
+.toolsSection{
+  animation-fill-mode: forwards;
+}
+.toolsSection>div{
+  width: 50px;
+  height: 100%;
+  
+  flex-basis: 50px;
+  flex-grow: 0;
+  flex-shrink: 0;
+  
+  box-shadow: 0 0 10px -2px var(--tg_shade);
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  transition: .5s;
+ }
+ 
+.toolsSection>div>i{
+  font-size: 22px;
+      
+  color: white;
+}
+
+.control_container>div:nth-child(3){
+  position: absolute;
+  
+  width: 100%;
+  height: 15px;
+  
+  bottom: 0;
+  
+}
+.control_container>div:nth-child(2){
+  width: 100%;
+  height: 15%;
+  
+  position: absolute;
+  
+  top: 50%;
+  
+  transform: translateY(-50%);
+  
+  display: flex;
+  
+  justify-content: space-between;
+  align-items: center;
+}
+.align_btns_sqr_ver{
+  width: 8px;
+  height: 15%;
+  
+  left: 50%;
+  top: 50%;
+}
+.align_btns_sqr_hor{
+  width: 15%;
+  height: 8px;
+  
+  
+  left: 50%;
+  top: 50%;
+}
+.align_btns_sqr{
+  background: white;
+  
+  position: absolute;
+  
+  border-radius: 15px;
+  border: solid .1px black;
+  
+}
+.align_btns_round{
+  width: 15px;
+  height: 15px;
+  
+  background:white;
+  
+  position: absolute;
+  
+  border-radius: 50%;
+  border: solid .1px black;
+}
+.control_container>div:first-child{
+  width: 100%;
+  height: 15px;
+  
+  position: relative;
+}
+.control_container{
+  position: absolute;
+  
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+@keyframes topNavVis{
+  0%{
+    top: 0;
+  }
+  100%{
+    top: -50px;
+  }
+}
+
+.navigationSec{
+  animation-fill-mode: forwards;
+}
+
+.btn_hover:hover{
+  border: dashed  2px var(--tg_btn_color);
+}
+
+.tg_prompt_back{
+  position: fixed;
+  
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  
+  background: var(--tg_shade);
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+}
+.tg_prompt_back>div{
+  background: var(--load_back);
+  
+  
+  min-height: 150px;
+
+  border-radius: 5px;
+  
+  padding: 5px;
+}
+.tg_prompt_back>div>div:first-child{
+  width: 100%;
+  min-height: 100px;
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+  color: var(--tg_text);
+  
+  font-family: Regular;
+  
+  padding-bottom: 10px;
+}
+
+.tg_prompt_back>div>div:nth-child(2)>button[data=yes]:hover{
+  box-shadow: 0 0 0 3px #1bcf7655;
+}
+.tg_prompt_back>div>div:nth-child(2)>button[data=yes]{
+  background: #1bcf76;
+}
+.tg_prompt_back>div>div:nth-child(2)>button[data=no]:hover{
+  background: #e72930;
+}
+.tg_prompt_back>div>div:nth-child(2)>button[data=no]{
+  background: #c3071665;
+}
+.tg_prompt_back>div>div:nth-child(2)>button{
+  width: 70px;
+  height: 35px;
+  
+  margin-left: 10px;
+  
+  border-radius: 5px;
+  border: none;
+  
+  font-family: Regular;
+  font-size: 16px;
+  
+  color: white;
+  
+  transition: .2s;
+}
+.tg_prompt_back>div>div:nth-child(2){
+  width: 180px;
+  
+  position: relative;
+  
+  left: 100%;
+  
+  transform: translate(-100%);
+}
+
+.tr_prog_cmp{
+  background: linear-gradient(to right,#521b91,#bc1996,#991a4c) !important;
+  
+  animation: tr_prog_cmp 1 .5s linear;
+  animation-fill-mode: forwards;
+  
+  
+}
+
+@keyframes tr_prog_cmp{
+  from{
+    width: 0%;
+    
+    opacity: 0.1;
+    
+    border-top-right-radius: 30px !important;
+    border-bottom-right-radius: 30px !important;
+  }
+  to{
+    width: 100%;
+    
+    border-radius: 4px !important;
+    opacity: 1;
+  }
+}
+
+.tr_success_icon{
+  animation: tr_success_icon .5s 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes tr_success_icon{
+  from {
+    font-size: 20px;
+  }
+  to{
+    font-size: 35px;
+  }
+}
+
+#trfoot{
+  width: 100%;
+  height: 100px;
+  
+  /*background: red;*/
+  
+  position: absolute;
+  
+  margin-top: var(--tg-viewport-height);
+  
+  z-index: -1;
+}
+
+.tg_part_loading>div:first-child{
+  position: absolute;
+  
+  width: 100%;
+  height: 100%;
+  
+  z-index: -1;
+  
+  filter: blur(5px);
+  
+  
+  
+  background: var(--tg_btn_shade);
+  
+  border-radius: 10px;
+}
+.tg_part_loading{
+  position: absolute;
+  
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  
+  justify-content: center;
+  align-items: center;
+  
+  flex-direction: column;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}

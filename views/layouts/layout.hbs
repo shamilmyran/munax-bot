@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{title}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Chrome, Firefox OS and Opera -->
+  <meta name="theme-color" content="#302e37">
+  <!-- Windows Phone -->
+  <meta name="msapplication-navbutton-color" content="#302e37">
+  <!-- iOS Safari -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="#302e37">
+  <!-- search engine tags-->
+<meta name="description" content="TGWAY is a platform that provide some useful Telegram bots">
+<meta itemprop="description" content="TGWAY is a platform that provide some useful Telegram bots">
+<meta name="keywords" content="tgway, tgway2, subtitile translator bot, telegram bots, youtube subtitles, bot, subtitle translate, malayalam subtitles">
+<meta itemprop="keywords" content="tgway, tgway2, subtitile translator bot, telegram bots, youtube subtitles, bot, subtitle translate, malayalam subtitles">
+<meta name="author" content="TGWAY, LLC">
+<meta name="thumbnail" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com/images/thumbnail.jpg">
+<link rel="canonical" href="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com">
+<meta itemprop="image" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com/images/thumbnail.jpg"><!-- swiftype-->
+<meta class="swiftype" name="image" data-type="enum" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com/images/thumbnail.jpg">
+<!-- for other features refer to https://www.w3.org/wiki/WebSchemas/Accessibility -->
+<!-- Application-specific meta tags -->
+<!-- Twitter: see https://dev.twitter.com/docs/cards/types/summary-card for details -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com/images/thumbnail.jpg">
+<meta name="twitter:title" content="TGWAY">
+<meta name="twitter:description" content="TGWAY is a platform that provide some useful Telegram bots.">
+<meta name="twitter:url" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com">
+<meta name="twitter:image" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com/images/thumbnail.jpg">
+<meta name="twitter:image:alt" content="TGWAY Interface">
+<!-- Facebook (and some others) use the Open Graph protocol: see http://ogp.me/ for details -->
+<!-- BEGIN facebook tags -->
+<meta property="og:url" content="https://tgway{{#isNot org}}2{{/isNot}}.herokuapp.com"><meta property="og:type" content="website">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TGWAY">
+<meta property="og:description" content="TGWAY is a platform that provide some useful Telegram bots">
+<meta property="og:image" content="https://tgway.onrender.com/images/thumbnail.jpg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/favicon-16x16.png">
+  <link rel="manifest" href="/images/icons/site.webmanifest">
+  <link rel="mask-icon" href="/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  {{#if policy}}
+  <link rel="stylesheet" href="/stylesheets/policy.css">
+  {{/if}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.css" integrity="sha512-Z0kTB03S7BU+JFU0nw9mjSBcRnZm2Bvm0tzOX9/OuOuz01XQfOpa0w/N9u6Jf2f1OAdegdIPWZ9nIZZ+keEvBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  {{#if telegram}}
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  {{/if}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {{#if telegram}}
+    <script src="/javascripts/telegram.js"></script>
+    <link rel="stylesheet" href="/stylesheets/telegram.css">
+  {{/if}}
+  {{#isNot telegram}}
+    <script src="/javascripts/main.js"></script>
+  {{/isNot}}
+</head>
+<body>
+  {{#isNot headerChange}}
+    {{> header}}
+  {{/isNot}}
+  {{{body}}}
+  {{#isNot headerChange}}
+    <div class="bottom_padding"></div>
+  {{/isNot}}
+</body>
+</html>

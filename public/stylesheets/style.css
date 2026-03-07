@@ -1,0 +1,141 @@
+:root{
+  --background:#16182b;
+}
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  
+  background: var(--background);
+}
+a{
+  color: inherit;
+}
+.index-center {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 30px;
+}
+@keyframes wave {
+  0% {
+    box-shadow: 0 0 1px 2px  rgba(34,231,96,0.499);
+  }
+  25% {
+    box-shadow: 0 0 1px 6px rgba(38,232,92,0.596);
+  }
+  50% {
+    box-shadow: 0 0 1px 10px rgba(38,232,92,0.7);
+  }
+  75% {
+    box-shadow: 0 0 1px 6px rgba(38,232,92,0.596);
+  }
+  100% {
+    box-shadow: 0 0 1px 2px  rgba(34,231,96,0.499);
+  }
+
+}
+.main-toast-back {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  width: 90%;
+
+  padding: 50px;
+
+  transform: translate(-50%,-50%);
+
+  display: flex;
+
+  justify-content: center;
+}
+.toast-back {
+  display: block;
+  text-align: center;
+
+  padding: 8px;
+
+  border: solid 1.5px;
+  border-radius: 8px;
+}
+.standard-border,.standard-text {
+  border-color: #a7e9f6;
+
+  color: white;
+  
+}
+.toast-label {
+  font-family: Courier New;
+  font-weight: bold;
+}
+.success-text,.success-border {
+  border-color: #66e47e;
+
+  color: white;
+
+}
+.error-text,.error-border {
+  border-color: #e3262e;
+
+  color: white;
+}
+.success-border{
+  background: #17883dd0;
+}
+.standard-border{
+  background: #181824c6;
+}
+.error-border{
+  background: #ca1313d3;
+}
+.loadingPart{
+    position: fixed;
+    
+    width: 100%;
+    height: 100%;
+    min-height: 70px;
+    min-width: 70px;
+    
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    
+    background: rgba(146,156,175,0.668);
+    
+    color: #1f1446;
+  }
+html, body {
+  overscroll-behavior-x: none;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--background) inset !important;
+}
+
+.bottom_padding{
+  height: 50px;
+}
+
+@font-face{
+  font-family:"header-font";
+  src:url('/fonts/Peralta/Peralta-Regular.ttf');
+  
+}
+@font-face{
+  font-family:Courier;
+  src:url('/fonts/crr/crr.ttf');
+}
+
+@font-face{
+  font-family:Regular;
+  src:url('/fonts/regular.ttf')
+}

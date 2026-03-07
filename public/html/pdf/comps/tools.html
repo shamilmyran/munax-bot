@@ -1,0 +1,42 @@
+<section id="toolsSection" class="toolsSection">
+  <div class="btn_active_tg btn_opacity" tool="image">
+    <i class="fa-regular fa-image" hint="Add Image Element"></i>
+  </div>
+  <div class="btn_active_tg btn_opacity">
+    
+  </div>
+  <div class="btn_active_tg btn_opacity">
+    
+  </div>
+  <style type="text/css" media="all">
+    
+    
+    #toolsSection{
+      position: fixed;
+      
+      bottom: 0;
+      
+      height: 50px;
+      width: 100%;
+      
+      background: var(--tg_shade);
+      
+      display: flex;
+      
+      overflow: scroll;
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+    $("#toolsSection>div").click(async e=>{
+      let tool=$(e.currentTarget).attr("tool")
+      let elm_id=tool+Date.now()
+      tg_load()
+      $("#editorSection").append(await get_page_part({path:"/html/pdf/tools/"+tool,id:elm_id}))
+      $("body").append(await get_page_part({path:"/html/pdf/controls/bottom_"+tool}))
+      $("body").append(await get_page_part({path:"/html/pdf/controls/top_control",tool}))
+      refreshEvents()
+      fullscreen()
+      tg_load(true)
+    })
+  </script>
+</section>

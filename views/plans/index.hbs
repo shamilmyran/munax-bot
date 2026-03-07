@@ -1,0 +1,393 @@
+<section id="countrySelect" class="col-10 col-md-6">
+  <div>
+    <h3 id="mainHeddInCountry">Are You From India ?</h3>
+
+    <div style="display:flex;justify-content:center">
+      <button id="indiaBtn" class="mt-5"><i class="fa fa-check"></i></button>
+      <button id="notIndiaBtn" class="mt-5"><i class="fa fa-close"></i></button>
+    </div>
+  </div>
+</section>
+<section id="planPage" hidden="true">
+  
+  <div id="mainPagePart">
+    <div style="justify-content:center;text-align:center;margin-top:30px">
+      <h4 id="mainPageHead">PLANS PURCHASING PAGE</h4>
+      <label id="mainPageHeadLabel">You Can Purchase A Plan <br>For <a href="https://t.me/subtitle_translate_bot" target="_blank"><img src="/images/translate_bot_icon.jpg" alt="Translate Bot" width="40px" style="border-radius:50%"></a> Telegram Bot</label><br><br>
+      <label class="text text-info">Available Plans :- </label>
+    </div>
+    {{#if vip.normal}}
+    <div style="width:100;text-align:center">
+      <label style="font-family:Courier new;font-weight: bold;color:#00ffe3">You currently have a valid translation plan, and if your daily translation limit is exceeded, you can purchase an Emergency Translation Plan.</label>
+    </div>
+    {{else}}
+    <label class="planType">NORMAL PACK</label>
+    <div class="planScrollPart">
+      {{#each plans}}
+      {{#isEach this.type "==" "normal" this}}
+      <div class="card">
+        <h5 class="card-header">{{this.plan}}</h5>
+        <div class="card-body">
+          <h5 class="card-title">{{this.price.inr}},{{this.price.doller}}</h5>
+          <label class="validity">validity : {{this.valid}} Days</label>
+          <div class="mt-2 mb-2">
+          {{#each this.gain}}
+            <label class="card-text">
+              * {{this}}
+            </label><br>
+          {{/each}}
+          </div>
+          <button class="btn btn-primary planSelBtn" value="{{this.plan}}">PURCHASE PLAN</button>
+        </div>
+      </div>
+      {{/isEach}}
+      {{/each}}
+    </div>
+    {{/if}}
+    <label class="planType mt-2">Emergency Packs</label>
+    <div class="planScrollPart">
+      {{#each plans}}
+      {{#isEach this.type "==" "addon" this}}
+      <div class="card">
+        <h5 class="card-header">{{this.plan}}</h5>
+        <div class="card-body">
+          <h5 class="card-title">{{this.price.inr}},{{this.price.doller}}</h5>
+          <label class="validity">validity : {{this.valid}} Days</label>
+          <div class="mt-2 mb-2">
+          {{#each this.gain}}
+            <label class="card-text">
+              * {{this}}
+            </label><br>
+          {{/each}}
+          </div>
+          <button class="btn btn-primary planSelBtn" value="{{this.plan}}">PURCHASE PLAN</button>
+        </div>
+      </div>
+      {{/isEach}}
+      {{/each}}
+    </div>
+    <div id="mainPageBottomPart" style="justify-content:center;text-align: center" class="mt-3">
+      <label id="contactLabel">If You Have Any Doubt About The<br> Plans You Can Contact The Bot Admin</label>
+      <div style="display:flex;justify-content:center" class="mt-2">
+        <a target="_blank" href="https://t.me/afsalcp66"><button id="contactTelegramBtn"><i class="fa-brands fa-telegram" style="font-size:28px"></i></button></a>
+        
+        <a target="_blank" href="https://instagram.com/afsal__shazz_"><button id="contactInstagramBtn"><i class="fa-brands fa-instagram" style="font-size:28px"></i></button></a>
+      </div>
+      <div>
+        <p id="discriptionP" style="margin-top:30px">
+          Plan Purchasing Is Not Mandatory, If You Like The Translator Bot , And If You Want To Translate More Files Or Remove Ads From The Bot You Can Purchase A Plan For That, There Is No Guarantee About Bot , Sometime It Will Be Down Or Stop Working ,The Bot Admin Is Not Responsible For That,If There Is Any Problem With Plan Purchasing You Can Contact The Bot Admin
+        </p>
+        <div style="justify-content:center;text-align:center">
+          <footer >
+          <span id="copyrightSymb">&copy; 2022 TGWAY</span>
+          </footer>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .planType{
+    color: #eb9fc9;
+    
+    font-family: Courier New;
+    font-size: 15px;
+    font-weight: bold;
+    
+    text-decoration: underline;
+    
+    margin-left: 20px;
+  }
+  #copyrightSymb{
+    color: white;
+    
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  #discriptionP{
+    color: white;
+    
+    font-family: Courier New;
+  }
+  #contactInstagramBtn{
+    width: 75px;
+    height: 40px;
+    
+    background: linear-gradient(to bottom left,#9d28d6,#f02b99,#f4c130);
+    
+    color: white;
+    
+    border: none;
+    border-radius: 5px;
+    
+    margin-left: 20px;
+  }
+  #contactInstagramBtn:focus{
+    box-shadow: 0 0 0 3px #dd318f99;
+  }
+  #contactTelegramBtn{
+    width: 75px;
+    height: 40px;
+    
+    background: #2b96e9;
+    
+    color: white;
+    
+    border: none;
+    border-radius: 5px;
+    
+    transition: .5s;
+  }
+  #contactTelegramBtn:focus{
+    box-shadow: 0 0 0 4px #2c8be6a2;
+  }
+  #contactLabel{
+    color: white;
+    
+    font-weight: bold;
+  }
+  .validity{
+    color: #23e064;
+    
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  .card-text{
+    color: white;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  .card-title{
+    color: #2e2d35;
+    
+    text-shadow: 1px 1px 0 #abeef6,-1px -1px 0 #abeef6,-1px 1px 0 #abeef6,1px -1px 0 #abeef6;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  .card-header{
+    color: #2e2d35;
+    
+    background: -webkit-linear-gradient(#9154de,#e330d0);
+    -webkit-text-fill-color:transparent;
+    -webkit-background-clip:text;
+    
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  .card{
+    width: 300px ;
+    
+    flex-basis: 300px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    
+    margin: 10px;
+    
+    background: none;
+    
+    border: #1ee94d solid 1px;
+    
+    transition: .5s;
+  }
+  .planScrollPart {
+    width: 100%;
+
+    margin-top: 10px;
+
+    overflow-y: hidden;
+    overflow-x: scroll;
+    
+    display: flex;
+    
+    align-items: stretch;
+    
+    flex-direction: row;
+    flex-wrap: nowrap;
+    
+  }
+  #mainPageHeadLabel {
+    color: white;
+
+    font-family: Courier New;
+    font-weight: bold;
+
+    margin-top: 20px;
+  }
+  #mainPageHead {
+    text-shadow: 1px 1px 0 #41db84, 1px -1px 0 #41db84, -1px 1px 0 #41db84, -1px -1px 0 #41db84;
+
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  #mainPagePart {
+    position: fixed;
+    
+    width: 100%;
+    
+    bottom: 0;
+
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    overflow: scroll;
+  }
+  #notIndiaBtn {
+    background: linear-gradient(to left,#e52266,#db425d);
+
+    color: white;
+
+    width: 80px;
+    height: 40px;
+
+    font-size: 29px;
+
+    border: none;
+    border-radius: 8px;
+
+    margin-left: 50px;
+  }
+  #indiaBtn {
+    color: white;
+    background: linear-gradient(to left,#00ff9d,#2dc378);
+    width: 80px;
+    height: 40px;
+
+    font-size: 29px;
+
+    border: none;
+    border-radius: 8px;
+
+
+  }
+  #indiaBtn:active {
+    background: radial-gradient(#39ac5d,#62e98b);
+  }
+  #countrySelect {
+    position: fixed;
+
+    background: linear-gradient(to top,#2e2d35,#0f0f20);
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%,-50%);
+
+    text-align: center;
+    justify-content: center;
+
+    border-radius: 5px;
+
+    padding: 50px 0;
+  }
+  #mainHeddInCountry {
+    color: white;
+
+    font-family: Courier;
+    font-weight: bold;
+
+    text-shadow: 2px 2px 3px white;
+  }
+  .howerClass{
+    border-color: red;
+    box-shadow: 0 0 0 6px #ee1538a4;
+  }
+</style>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  let stor = window.localStorage,
+  rzp, logo;
+  loading("body")
+  $(document).ready(()=>{
+  loading("",true)
+  $("#indiaBtn,#notIndiaBtn").click((e)=> {
+    var id = $(e.currentTarget).attr("id"),
+    type = ""
+    if (id === "indiaBtn")type = "inr"
+    else type = "doller"
+    stor.setItem("money", type)
+    toast("Your currency has been selected as "+type.toUpperCase(), "success")
+    $("#countrySelect").hide(500)
+    $("#planPage").removeAttr('hidden').hide().show(500)
+    let h = parseInt($("#pageHeadPart").height())
+    $("#mainPagePart").css("top", h+2+"px")
+    setMoney()
+  })
+  function setMoney(){
+    $(document).ready(()=>{
+      $(".card-title").each((i,e)=>{
+        var price=$(e).html().split(",")
+        if(stor.getItem("money")==="inr"){
+          $(e).html(`<i class="fa fa-inr"></i>${price[0]}/-`)
+        }else{
+          $(e).html(`<i class="fa fa-dollar"></i>${price[1]}/-`)
+        }
+      })
+    })
+  }
+  $(".planSelBtn").click(e=>{
+    e=$(e.currentTarget)
+    loading("body")
+    toast("Please Wait..<br>Getting Your Info On Server")
+    $.ajax({
+      url:"/api/translate/getUser",
+      type:"get",
+      dataType:"json",
+      data:{
+        user:"{{id}}"
+      },
+      success:async(res)=>{
+        if(res.sts){
+          stor.setItem("plan",e.attr("value"))
+          var key=Object.keys(res.data)
+          var val=Object.values(res.data)
+          var data={}
+          key.map((e,i)=>{
+            if(typeof val[i] == "object"){
+              var k=Object.keys(val[i]),
+              v=Object.values(val[i])
+              k.map((el,ie)=>{
+                data[el]=v[ie]
+              })
+            }else data[e]=val[i]
+          })
+          data.path="/html/plans/userData"
+          $.ajax({
+            url:"/html",
+            type:"post",
+            dataType:"text",
+            data,
+            success:(html)=>{
+              toast("successfully Getted Your Details\nPlease Check The Data Carefully","success")
+              $("#planPage").css("pointer-events","none")
+              $("body").append(html)
+            }
+          })
+        }else{
+          if(res.msg.toLowerCase().includes("required data")||res.msg.toLowerCase().includes("invalid user")){
+            await sleep(5000)
+            loading(null,true)
+            await toast("Unexpected Error Occured While Getting Your Details \nPlease Go Back To Telegram And Send /plans command and get the right link","error")
+            location.href=`https://t.me/subtitle_translate_bot?text=${encodeURIComponent('/plans')}`
+          }else toast(res.msg,"error")
+          
+        }
+      }
+    })
+  })
+  var img=document.getElementById("tgwayIcon")
+  var can=document.createElement("canvas")
+  can.width=img.naturalWidth
+  can.height=img.naturalHeight
+  var ctx=can.getContext("2d")
+  ctx.drawImage(img,0,0,can.width,can.height)
+  logo=can.toDataURL()
+  })
+  $(".card").on("touchstart mouseenter",(e)=>{
+    e=$(e.currentTarget)
+    $(".card").removeClass("howerClass")
+    e.addClass("howerClass")
+  })
+</script>

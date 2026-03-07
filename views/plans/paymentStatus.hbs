@@ -1,0 +1,267 @@
+<section id="paymentErrorSection">
+  {{#if payment_id}}
+  <div class="mt-3">
+    <center>
+      <h4 id="paymentErrorMainHead">Payment Status</h4>
+      <label id="paymentErrorMainHeadLabel">Please Save This Information</label>
+    </center>
+  </div>
+  <div style="text-align:center; justify-content: center; margin-top:20px; display:flex;align-items:center;color:white" class="col-12">
+    <label id="paymentId" style="margin-right:10px">payment_id</label>
+    :
+    <input class="form form-control border-primary" type="text" value="{{payment_id}}" readonly="true" style="background:none;color:white;text-align:center;width:200px;margin-left:10px">
+  </div>
+  <div style="justify-content:center;display:flex" class="mt-5">
+    <a href="/saveAsPdf?payment_id={{payment_id}}" id="saveAsPdf"><button class="btn btn-primary mt-5">Save As Pdf <i class="fa fa-download"></i></button></a>
+    
+    <button class="btn btn-success mt-5" style="margin-left:20px" id="showStatusBtn">Show status</button>
+  </div>
+  {{else}}
+  <div class="mt-5" style="text-align:center">
+    <h5 id="mainStatusHead">CHECK YOUR PAYMENT STATUS</h5>
+    <lable id="paymentStatusMainHeadLabel">You Can Check Your Payment Status</lable>
+  </div>
+  <div style="justify-content:center;text-align:center" id="paymentIdEnterPart">
+    <label class="statusLabels">Please Enter The Payment Id</label><br><br>
+    <input type="text" class="border-success" placeholder="Please Enter The payment_id" id="payment_idInp" name="payment_id">
+    <br><br>
+    <button class="btn btn-success" id="getStatusBtn">GET DETAILS</button>
+  </div>
+  <div id="paymentStatus" style="justify-content:center;text-align:center" class="mt-5 col-12" hidden="">
+    <div class="paymetStatusPart col-12">
+      <div class="col-5">
+        <label class="paymetStatusLabel">Payment Id</label>
+      </div>
+      :
+      <div class="col-7">
+        <input type="text" class="paymentStsInp" id="pid" name="pid" readonly="">
+      </div>
+    </div>
+    <div class="paymetStatusPart col-12">
+      <div class="col-5">
+        <label class="paymetStatusLabel">Order Id</label>
+      </div>
+      :
+      <div class="col-7">
+        <input type="text" class="paymentStsInp" id="oid" name="oid" readonly="">
+      </div>
+    </div>
+    <div class="paymetStatusPart col-12">
+      <div class="col-5">
+        <label class="paymetStatusLabel">Payment Status</label>
+      </div>
+      :
+      <div class="col-7">
+        <input type="text" class="paymentStsInp" id="psts" name="psts" readonly="">
+      </div>
+    </div>
+    <div class="paymetStatusPart col-12">
+      <div class="col-5">
+        <label class="paymetStatusLabel">Amount</label>
+      </div>
+      :
+      <div class="col-7">
+        <input type="text" class="paymentStsInp" id="pamount" name="pamount" readonly="">
+      </div>
+    </div>
+    <div class="paymetStatusPart col-12">
+      <div class="col-5">
+        <label class="paymetStatusLabel">Currency</label>
+      </div>
+      :
+      <div class="col-7">
+        <input type="text" class="paymentStsInp" id="pcurr" name="pcurr" readonly="">
+      </div>
+    </div>
+    <div class="mt-5">
+      <p id="contactP">If You Have Any Compliments About The Payment Please Contact Bot Admin</p>
+    </div>
+    <div style="display:flex;justify-content:center" class="mt-2">
+        <a target="_blank" href="https://t.me/afsalcp66"><button id="contactTelegramBtn"><i class="fa fa-telegram" style="font-size:28px"></i></button></a>
+        
+        <a target="_blank" href="https://instagram.com/afsal__shazz_"><button id="contactInstagramBtn"><i class="fa fa-instagram" style="font-size:28px"></i></button></a>
+      </div>
+      <div style="height:30px"></div>
+  </div>
+  {{/if}}
+</section>
+
+<style >
+  
+  
+  
+  #contactP{
+    color: white;
+    
+    text-align: center;
+    
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  #contactInstagramBtn{
+    width: 75px;
+    height: 40px;
+    
+    background: linear-gradient(to bottom left,#9d28d6,#f02b99,#f4c130);
+    
+    color: white;
+    
+    border: none;
+    border-radius: 5px;
+    
+    margin-left: 20px;
+  }
+  #contactInstagramBtn:focus{
+    box-shadow: 0 0 0 3px #dd318f99;
+  }
+  #contactTelegramBtn{
+    width: 75px;
+    height: 40px;
+    
+    background: #2b96e9;
+    
+    color: white;
+    
+    border: none;
+    border-radius: 5px;
+    
+    transition: .5s;
+  }
+  #contactTelegramBtn:focus{
+    box-shadow: 0 0 0 4px #2c8be6a2;
+  }
+  .paymetStatusLabel{
+    color: white;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  .paymentStsInp{
+    width: 180px;
+    
+    border: solid 1px #791de3;
+    
+    margin-top: 15px;
+    
+    color: white;
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  .paymetStatusPart{
+    display: flex;
+    
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    
+    color: white;
+  }
+  .statusLabels{
+    color: white;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  input{
+    background:none;
+    color:white;
+    
+    text-align:center;
+    
+    width:250px;
+    height: 40px;
+    
+    border: solid 1px;
+    border-radius: 8px;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  input::placeholder{
+    color: #d1d6db;
+  }
+  #mainStatusHead{
+    font-family: Georgia;
+    font-weight: bold;
+    
+    color: white;
+  }
+  #paymentErrorMainHeadLabel,#payment_id,#paymentStatusMainHeadLabel{
+    color: #1dd443;
+    
+    font-family: Courier New;
+    font-weight: bold;
+  }
+  #paymentErrorMainHead{
+    font-family: Georgia;
+    font-weight: bold;
+    
+    color: white;
+  }
+  #paymentErrorSection{
+    position: fixed;
+    
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    background: linear-gradient(to top,#2e2d35,#0f0f20);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    
+    overflow: scroll;
+  }
+</style>
+
+<script >
+  var isClicked=false
+  $(document).ready(()=>{
+    var h=$("#pageHeadPart").height()
+      $("#paymentErrorSection").css("top",String(parseInt(h)+5)+"px")
+    {{#if payment_id}}
+      toast("Please Save The Payment Id")
+    {{/if}}
+  })
+  $("#saveAsPdf").click(()=>{
+    isClicked=true
+  })
+  $("#showStatusBtn").click(()=>{
+    if(isClicked){
+      location.href="/paymentStatus"
+    }else{
+      toast("First Click The Blue Button For Download Payment Details","error")
+    }
+  })
+  
+  $("#getStatusBtn").click(()=>{
+    var payment_id=$("#payment_idInp").val()
+    if(payment_id.length>10){
+      loading("body")
+      $("#paymentIdEnterPart").hide()
+      $("#paymentStatus").removeAttr("hidden")
+      $.ajax({
+        url:"/checkPayment",
+        type:'get',
+        dataType:"json",
+        data:{payment_id},
+        success:(res)=>{
+          if(res.sts){
+            $("#pid").val(res.data.id)
+            $("#oid").val(res.data.order_id)
+            $("#psts").val(res.data.status)
+            $("#pamount").val(parseInt(res.data.amount)/100)
+            $("#pcurr").val(res.data.currency)
+            loading("",true)
+          }else{
+            $("#paymentStatus").attr("hidden","true")
+            $("#paymentIdEnterPart").show()
+            loading(null, true)
+            toast(res.msg,"error")
+          }
+        }
+      })
+    }else{
+      toast("Please Enter The Payment Id First","error")
+    }
+  })
+</script>

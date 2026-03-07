@@ -1,0 +1,456 @@
+<script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+  loading("body")
+  toast("Click on ads only after translation is complete")
+  let visibilityChange;
+    if (typeof document.hidden !== "undefined") { // Opera 12.10 and Firefox 18 and later support
+      hidden = "hidden";
+      visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+      hidden = "msHidden";
+      visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+      hidden = "webkitHidden";
+      visibilityChange = "webkitvisibilitychange";
+    }
+  $(window).ready(async()=>{
+    loading("body",true)
+    const socket=io({path:"{{#if group}}/group{{/if}}/socket.io"})
+    if(document[hidden])return await socket.emit("stop","{{uId}}")
+    $(document).on(visibilityChange,async(e)=>{
+      if(document[hidden]){
+        await socket.emit("stop","{{uId}}")
+        return
+      }else toast("Your Translation Process Was Stopped\n Because We Found That You Are Exited From Our Website","error")
+  });
+    socket.on("err",async err=>{
+      await socket.emit("removeUser",{uId:"{{uId}}"})
+      $("#translationSts").html(res.msg)
+      $("#translationStsIcon").attr("class","fa").addClass("fa-times-circle-o").css("color","#ee0e4e")
+      await toast(res.msg,"error")
+      location.href="tg://"
+      //location.href="https://t.me"
+    })
+    socket.on("msg",msg=>{
+      $("#translationSts").html(msg)
+    })
+    socket.on("file",async data=>{
+      await sleep(2000)
+      toast("subtitle translationl was completed successfully\nTrying to download the file \nPlease Wait...","success")
+      downloadFile(data.msg_id,data.user)
+    })
+    await sleep(2000)
+    await socket.emit("join","{{uId}}")
+    await sleep(2000)
+    socket.emit("addUser",{uId:"{{uId}}"})
+  })
+  function downloadFile(id,user){
+    $("#translatingDetials").hide()
+    $("#retryToDownloadPart").attr("hidden","true")
+    $("#downloadProgressPart").removeAttr("hidden")
+    $.ajax({
+      url:`/translate/{{#if group}}group/{{/if}}download?id=${id}&user=${user}`,
+      type:"get",
+      chunking:true,
+      xhr:()=>{
+        var xhr = new window.XMLHttpRequest()
+        xhr.addEventListener("progress",(e)=>{
+          if (e.lengthComputable) {
+            $("#downloadProgress").css({width:`${e.loaded/e.total*100}%`})
+         }
+       }, false);
+       return xhr;
+      },
+      success:async(file)=>{
+        try{
+        if(file.length>1){
+        toast("Hi User\nIf you want to help the bot admin, you can do so by clicking on an ad")
+        $("#downloadProgress").css({width:"100%"})
+        $("#translationStsIcon").attr("class","fa").addClass("fa-check-circle").css("color","#17bc4d");
+        file=file.toString("utf8")
+        var filename=file.split("[{$filename:")[1]
+        file=file.split("[{$filename:")[0]
+        var e=document.createElement("a")
+        e.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(file));
+        e.setAttribute('download', filename||"subtitle.srt");
+        e.style.display = 'none';
+        document.body.appendChild(e);
+
+        e.click();
+
+        document.body.removeChild(e);
+        
+        $("#retryNormalBtn").attr("onclick",`downloadFile(${id},${user})`)
+        $("#retryForceBtn").attr("onclick",`forceDownload("${id}","${user}")`)
+        
+        await sleep(1500)
+ 
+        $("#downloadProgressPart").attr("hidden","true")
+        $("#retryToDownloadPart").removeAttr("hidden")
+      }else{
+        await toast("Unexpected Error Occured Wile File Downloading Please Retry To Translate","error")
+        location.href="tg://"
+        //location.href="https://telegram.me"
+      }
+        }catch(e){
+          alert(e)
+        }
+      }
+    })
+  }
+  function forceDownload(id,user){
+    location.href=`/translate/{{#if group}}group/{{/if}}download/?id=${id}&user=${user}&force=true`
+  }
+</script>
+<section id="headerSection">
+  <div id="headerTextPart">
+    <div>
+    <h4>TGWAY</h4>
+    <label >Telegram Bot Services</label>
+    </div>
+  </div>
+  <div style="width:30%;">
+    <img src="/images/icon.png" alt="TGWAY Icon" width="60">
+  </div>
+</section>
+<section id="adsSection">
+  <div style="height:100px" id=adsTop></div>
+  <div class="adsBack">
+    {{{ads.ads320x50}}}
+  </div>
+  <div class="adsBack">
+    {{{ads.ads300x250}}}
+  </div>
+  <div class="adsBack">
+    {{{ads.ads160x300}}}
+  </div>
+  <div class="adsBack">
+    {{{ads.ads320x50}}}
+  </div>
+  <div class="adsBack">
+    {{{ads.ads320x50}}}
+  </div>
+  <div id="adsCenter" style="height:50px"></div>
+  <div class="adsBack">{{{ads.ads320x50}}}</div>
+  <div class="adsBack">{{{ads.ads468x60}}}</div>
+  <div class="adsBack">{{{ads.ads300x250}}}</div>
+  <div class="adsBack">{{{ads.ads160x300}}}</div>
+  <div class="adsBack">
+    {{{ads.ads468x60}}}
+  </div>
+  <div class="adsBack">{{{ads.ads300x250}}}</div>
+  <div class="adsBack">{{{ads.ads300x250}}}</div>
+  <div class="adsBack">{{{ads.ads320x50}}}</div>
+  <div class="adsBack">{{{ads.ads468x60}}}</div>
+  <div class="adsBack">
+    {{{ads.ads320x50}}}
+  </div>
+  <div id="adsBottom" style="height:100px"></div>
+</section>
+
+<section id="translatingSection">
+  <div id="translatingBack">
+  <div id="loadingBack"></div>
+  <div id="translatingMain">
+    <div style="width:15%">
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw" style="color:#24cd8e;font-size:25px" id="translationStsIcon"></i>
+    </div>
+    <div id="translatingDetials">
+      <div style="height:20%">
+        <label id="translatingHeadingLabel">Translation Status</label>
+      </div>
+      <div style="height:80%">
+        <p id="translationSts">You are in Q Please Wait...</p>
+      </div>
+    </div>
+    <div id="downloadProgressPart" hidden="true">
+      <label id="downloadText">Your File Was Downloading..</label>
+      <div id="downloadProgressBack">
+        <div id="downloadProgress"></div>
+      </div>
+    </div>
+    <div id="retryToDownloadPart" hidden="true">
+      <div style="height:30%">
+      <p id="retryDownloadText">If the download has not started yet, please click the button and try again</p>
+      </div>
+      <div id="retryBtnPart">
+        <button id="retryNormalBtn">Normal <i class="fa fa-arrow-circle-down"></i></button>
+        <button id="retryForceBtn">Force <i class="fa fa-arrow-circle-down"></i></button>
+        <a href="tg://" ><button id="backToTelegramBtn">BACK <i class="fa fa-telegram"></i></button></a>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<style>
+  
+  
+  
+  #backToTelegramBtn{
+    width: 90px;
+    height: 35px;
+    
+    border: none;
+    border-radius: 5px;
+    
+    background: #3FA8E2;
+    
+    color: white;
+    
+    font-family: Courier;
+    font-weight: bold;
+    
+    margin-left: 10px;
+  }
+  #retryForceBtn{
+    background: #c8294f;
+    
+    margin-left: 10px;
+  }
+  #retryForceBtn:hover{
+    box-shadow:0 0 0 3px #c8294fa1;
+    background: #89132f;
+  }
+  #retryNormalBtn{
+    background: #24ca80;
+  }
+  #retryNormalBtn:hover{
+    box-shadow: 0 0 0 3px #24ca8081;
+    
+    background: #249261;
+  }
+  #retryBtnPart button{
+    width: 90px;
+    height: 35px;
+    
+    border: none;
+    border-radius: 4px;
+    
+    outline: none;
+    
+    color: white;
+    
+    font-family: Courier New;
+    font-weight: bold;
+    font-style: italic;
+    
+    transition: .6s;
+  }
+  #retryBtnPart{
+    height: 70%;
+    
+    display: flex;
+    
+    justify-content: center;
+    
+    margin-bottom: 5px;
+  }
+  #retryDownloadText{
+    font-family: Georgia;
+    font-weight: bold;
+    font-size: 10px;
+    
+    color: white;
+    
+    background: red;
+    
+    border-radius: 5px;
+  }
+  #downloadProgress{
+    position: relative;
+    
+    height: 100%;
+    width: 5%;
+    
+    background: #cc1834;
+    
+    border-radius: 3px;
+  }
+  #downloadProgressBack{
+    width: 80%;
+    height: 40px;
+    
+    border-radius: 3px;
+    border: solid 1px #e9d1d1;
+    
+    position: relative;
+    
+    margin-top: 5px;
+    
+    left: 50%;
+    
+    transform: translate(-50%);
+    
+    background: #d4c1c287;
+  }
+  #downloadText{
+    color: white;
+    
+    font-family: Courier New;
+    font-weight: bold;
+    
+    margin-top: 10px;
+  }
+  #downloadProgressPart{
+    width: 85%;
+    height: 100%;
+    
+    display: block;
+  }
+  #translationSts{
+    color: white;
+    
+    font-family: Courier New;
+    font-weight: bold;
+    
+    position: relative;
+    
+    top: 50%;
+    
+    transform: translate(0,-50%);
+  }
+  #translatingHeadingLabel{
+    color: #b95bc8;
+    
+    font-family: Courier;
+    font-weight: bold;
+    font-size: 18px;
+    
+    position: relative;
+    
+    top: 50%;
+    
+    transform: translate(0,-50%);
+    
+    text-decoration: underline;
+  }
+  #translatingDetials{
+    width: 85%;
+    height: 100%;
+    
+    display: block;
+    
+  }
+  #translatingBack{
+    position: relative;
+    
+    width: 100%;
+    height: 100%;
+  }
+  #translatingMain{
+    width: 100%;
+    height: 100%;
+    
+    background: none;
+    
+    position: relative;
+    
+    display: flex;
+    
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+  #loadingBack{
+    background: linear-gradient(to right,#2e2d35,#4f4e53);
+    
+    height: 100%;
+    
+    position: absolute;
+    
+    animation: gloringLoading 2s infinite;
+  }
+  #translatingSection{
+    position: fixed;
+    
+    width: 100%;
+    height: 80px;
+    
+    bottom: 0;
+    
+    background: #2e2d35;
+  }
+  @keyframes gloringLoading{
+    0%{
+      width: 0%;
+      
+      margin-left: 0%;
+    }
+    50%{
+      width: 40%;
+    }
+    90%{
+      width: 40%;
+      
+      margin-left: 60%;
+    }
+    100%{
+      width: 0%;
+      
+      margin-left: 100%;
+    }
+  }
+  .adsBack{
+    width: 100%;
+    
+    position: relative;
+    
+    display: flex;
+    
+    justify-content: center;
+    
+    margin-top: 15px;
+  }
+  #headerTextPart div label{
+    color: white;
+
+    font-family: Courier;
+    font-weight: bold;
+
+    background: -webkit-linear-gradient(#ff0066,#e27bd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #headerTextPart div h4{
+    color: white;
+    
+    background: -webkit-linear-gradient(#8e00ff,#00ffc6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    font-family: Georgia;
+    font-weight: bold;
+  }
+  #headerTextPart{
+    width: 70%;
+    
+    display: flex;
+    
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  #headerSection{
+    width: 100%;
+    
+    display: flex;
+    
+    justify-content: center;
+    text-align: center;
+    
+    background: linear-gradient(to bottom,#2e2d35,#0f0f20);
+    
+    position: absolute;
+    
+    top: 0;
+    
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  
+  }
+</style>
+<noscript >Please Turn on Javascript</noscript>
+{{{ads.adsSocialBar}}}
+

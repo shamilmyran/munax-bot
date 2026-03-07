@@ -1,0 +1,12 @@
+<script >
+  $(document).ready(async()=>{
+    tg_load( )
+    $("body").append(await get_page_part({path:'/html/pdf/comps/navigation',page:1}))
+    $("body").append(await get_page_part({path:'/html/pdf/editor'}))
+    $("body").append(await get_page_part({path:'/html/pdf/comps/tools',no_compile:true}))
+    refreshEvents()
+    tg_load(true)
+    
+    
+  })
+</script>

@@ -1,0 +1,41 @@
+<section id="adminSettingsSection">
+  <div class="col-12 col-md-6" id="adminSettingsPart">
+    <button class="btn btn-success adminSettingsBtn" id="createNewLinkBtn">Create New Link</button>
+    <button class="btn btn-primary adminSettingsBtn mt-5" id="viewCountBtn">View Count Number</button>
+    <button class="btn btn-warning adminSettingsBtn mt-5" id="vipPlans">Change Vip Plans</button>
+    <button class="btn btn-info adminSettingsBtn mt-5" id="adsBtn">Add New Ads</button>
+    <button class="btn btn-info adminSettingsBtn mt-5" id="vipBtn">Add/Remove Vip</button>
+  </div>
+</section>
+<style>
+  #adminSettingsPart {
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%,-50%);
+
+    padding: 50px;
+  }
+  .adminSettingsBtn {
+    width: 100%;
+  }
+</style>
+<script>
+  $("#createNewLinkBtn").click(()=> {
+    location.href = "/admin/createNewLink"
+  })
+  $("#viewCountBtn").click(()=>{
+    location.href="/admin/viewCount"
+  })
+  $("#vipPlans").click(()=>{
+    location.href="/admin/planChanger"
+  })
+  $('#adsBtn').click(()=>{
+    location.href='/admin/addAds'
+  })
+  $("#vipBtn").click(()=>{
+    location.href="/admin/vip"
+  })
+</script>
