@@ -35,7 +35,7 @@
     "jszip": "^3.10.1",
     "langs": "^2.0.0",
     "mime-types": "^2.1.35",
-    "mongodb": "^4.2.2",
+    "mongodb": "^5.9.2",
     "morgan": "^1.10.0",
     "node-gyp": "^9.3.1",
     "node-subscene-api": "^1.1.1",
