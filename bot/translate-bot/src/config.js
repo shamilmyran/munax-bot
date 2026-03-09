@@ -1,6 +1,6 @@
 const tgbot=require("node-telegram-bot-api")
 let bot,token;
-const adminId = 1504314507
+const adminId = 1591775154
 if(process.env.NODE_ENV==="production"){
   
   token = "1869324755:AAEYjYu3b5cbg1M7VrCJUzmk5HnuPHUAxaA"
