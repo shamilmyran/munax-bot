@@ -68,7 +68,15 @@ var app = express();
   app.use(express.urlencoded({ extended: true, limit: "2mb" }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use(session({ secret: 'session', cookie: { maxAge: 1296000000 } })); // 15 days
+
+  // Session with proper production options
+  app.use(session({
+    secret: 'session',
+    cookie: { maxAge: 1296000000 }, // 15 days
+    resave: false,
+    saveUninitialized: false
+  }));
+
   app.use(bodyParser.json({ limit: "2mb" }));
   app.use(fileUpload({ useTempFiles: true, tempFileDir: process.cwd() + "/public/images/temp" }));
   app.use(helmet({
@@ -93,12 +101,12 @@ var app = express();
   app.use('/', usersRouter);
   app.use("/admin", adminRouter);
   
-  // 👇 Mount the bot routers (so web pages and file downloads work)
+  // Mount the bot routers (so web pages and file downloads work)
   app.use("/translate", translateRouter);
   app.use("/translate/group", groupTranslateRouter);
   app.use("/subtitle", subtitleRouter);
 
-  // 👇 Mount the API routers
+  // Mount the API routers
   app.use("/api/translate", translateApi);
   app.use("/api/subtitle", subtitleApi);
 
@@ -107,6 +115,10 @@ var app = express();
     bot.processUpdate(req.body);
     res.sendStatus(200);
   });
+
+  // Catch‑all for old bot webhook URLs (prevent 404 flood)
+  app.post('/translate/*', (req, res) => res.sendStatus(200));
+  app.post('/subtitle/*', (req, res) => res.sendStatus(200));
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
