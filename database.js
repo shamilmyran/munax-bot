@@ -3,7 +3,7 @@ const {MongoClient}=require("mongodb")
 let db,dbname="TGWAY"
 let connected=false
 
-var url=`mongodb+srv://afsalcp:${encodeURIComponent("afsalcp@786")}@cluster0.gmuoy.mongodb.net/TGWAY?retryWrites=true&w=majority`
+var url=process.env.MONGODB_URL || "mongodb+srv://munaxx1000_db_user:j6OdootNqbrmtvOV@cluster0.qevlvpg.mongodb.net/TGWAY?retryWrites=true&w=majority"
 
 let client=new MongoClient(url,{ useNewUrlParser: true, useUnifiedTopology: true })
 
