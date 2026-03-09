@@ -49,7 +49,12 @@ var app = express();
   var usersRouter = require('./routes/users');
   var adminRouter = require("./routes/admin");
 
-  // Bot API routers (for web app features)
+  // Bot routers (for web app features like batch translation, file downloads)
+  var translateRouter = require("./bot/translate-bot/bot");
+  var groupTranslateRouter = require("./bot/group-translate/bot");
+  var subtitleRouter = require("./bot/subtitle-bot/bot");
+
+  // Bot API routers (for internal API calls)
   var translateApi = require("./bot/translate-bot/api");
   var subtitleApi = require("./bot/subtitle-bot/api");
 
@@ -87,6 +92,13 @@ var app = express();
 
   app.use('/', usersRouter);
   app.use("/admin", adminRouter);
+  
+  // 👇 Mount the bot routers (so web pages and file downloads work)
+  app.use("/translate", translateRouter);
+  app.use("/translate/group", groupTranslateRouter);
+  app.use("/subtitle", subtitleRouter);
+
+  // 👇 Mount the API routers
   app.use("/api/translate", translateApi);
   app.use("/api/subtitle", subtitleApi);
 
