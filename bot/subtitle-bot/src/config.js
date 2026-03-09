@@ -1,6 +1,6 @@
 const tgbot=require("node-telegram-bot-api"),
 got=require("got"),
-adminId=1504314507
+adminId=1591775154
 
 let bot,token,root=process.cwd()+"/bot/subtitle-bot"
 
