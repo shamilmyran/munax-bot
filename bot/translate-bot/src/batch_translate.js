@@ -1,6 +1,6 @@
 // npm packages
 const router = require("express").Router();
-const io = new (require("socket.io"))({ path: "/translate/batch/socket" });
+const io = require("socket.io")({ path: "/translate/batch/socket" }); // 👈 FIXED
 const got = require("got");
 const fs = require("fs");
 const { encode: htmlEnt } = require("html-entities");
@@ -8,10 +8,11 @@ const { encode: htmlEnt } = require("html-entities");
 // local packages
 const db = require("../../../helper/db");
 const settings = require("./settings");
-const { bot, root, adminId } = require("../../config"); // 👈 CHANGED from "./config"
+const { bot, root, adminId } = require("../../config");
 const advertise = require("./advertise");
 const { sendDocument: document, Button, deleteMsg, sendMessage: send } = require("./messenger");
 
+// ... rest of the file stays exactly the same ...
 /*
 *****************************************
 *              socket io                *
