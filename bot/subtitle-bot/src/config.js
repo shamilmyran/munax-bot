@@ -1,15 +1,15 @@
 const tgbot=require("node-telegram-bot-api"),
 got=require("got"),
-adminId=1591775154
+adminId=1591775154 // YOUR TELEGRAM ID
 
 let bot,token,root=process.cwd()+"/bot/subtitle-bot"
 
 if(process.env.NODE_ENV==="production"){
-  token="5520607905:AAFUi9h_hT7qzWhEwTMwvHNCDJpIhGXfnZY"
+  token=process.env.SUBTITLE_BOT_TOKEN || "8434857501:AAFji7-GGfutfdpF8_fZtamz-VwxMgEY_ZM"
   bot=new tgbot(token)
   bot.setWebHook(process.env.HEROKU_URL+"/subtitle/"+token)
 }else{
-  token="5270684607:AAGzJ12xneNfr6kTgpue8CKKJ2rP1OQ1cUA"
+  token="5270684607:AAGzJ12xneNfr6kTgpue8CKKJ2rP1OQ1cUA" // Keep for local testing
   bot=new tgbot(token)
   console.log("Bot strated successfully");
   bot.startPolling()
