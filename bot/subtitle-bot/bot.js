@@ -4,8 +4,8 @@ router = express.Router(),
 got=require("got")
 
 /*local packages requiring*/
-const {bot,token,adminId, refresh_server}=require("./src/config"),
-{sendMessage:send_m,editMessage:edit,Button,deleteMsg,sendPhoto}=require("./src/message"),
+const {bot, adminId} = require("../config"), // 👈 Changed to unified config
+{sendMessage:send_m, editMessage:edit, Button, deleteMsg, sendPhoto}=require("./src/message"),
 db=require("../../helper/db"),
 {addGroup}=require("./src/settings")
 
@@ -22,15 +22,15 @@ let data_col=true
 bot.onText(/^\/start$/,async (msg)=>{
   console.log(msg);
   let chat=msg.chat.id
-  let rpl=`Hi ${msg.from.first_name} 👋\nIam a bot 🤖 to find subtitles 📄\nJust send the movie 🎞️ series 🎥drama 📽️ name , i will send the subtitle 📄 if available`
+  // 👇 Updated with your bot's name
+  let rpl=`Hi ${msg.from.first_name} 👋\nI'm **munax** - your all-in-one subtitle bot 🤖\n\n🔍 Find subtitles from multiple sources\n🔄 Translate subtitles to any language\n📁 Works in groups too!\n\nJust send a movie/series name or subtitle file!`
   send_m(chat,rpl,{reply_to_message_id:msg.message_id})
-  //await db.delete("user_datas",{user:msg.from.id})
   
   let usercheck=await db.get("user_datas",{user:msg.from.id},true)
   if(usercheck&&usercheck.bots.includes("subtitle"))return
   console.log(usercheck);
   
-  send_m(adminId,`new user joined\n user id : ${msg.from.id}\nname : ${msg.from.first_name||""} ${msg.from.last_name||""}\nusername : ${msg.from.username||"no username"}`)
+  send_m(adminId,`🎉 New user joined munax bot!\n👤 ID: ${msg.from.id}\n📝 Name: ${msg.from.first_name||""} ${msg.from.last_name||""}\n🆔 Username: ${msg.from.username||"no username"}`)
   if(!usercheck){
     await db.set("user_datas",{user:msg.from.id, bots:["subtitle"]})
     return
@@ -57,6 +57,7 @@ bot.on("text",msg=>{
   }
 })
 
+// 👇 Admin commands - all use your adminId from unified config
 bot.onText(/^\/collect$/,async msg=>{
   try{
     if(adminId!=msg.chat.id)return
@@ -64,12 +65,12 @@ bot.onText(/^\/collect$/,async msg=>{
     
     let {last_coll}=(await db.get("bots",{bot:"subtitle"},true))||{last_coll:0}
     if(!last_coll)await db.set("bots",{bot:"subtitle",last_coll:1})
-    let {message_id:end}=await send_m(adminId,"collecting datas ")
+    let {message_id:end}=await send_m(adminId,"📊 Collecting user data...")
     
     let found=0
     for (var i =Number(last_coll);i<end;i++){
       if(!(i%10)){
-        await edit(`total message checked : ${i}\nuser founded : ${found}\nmessage id : ${end}`,{chat_id:adminId,message_id:end})
+        await edit(`📈 Progress: ${i} messages checked\n👥 Users found: ${found}\n🆔 Message: ${end}`,{chat_id:adminId,message_id:end})
         await db.update("bots",{bot:"subtitle"},{last_coll:i})
       }
       
@@ -101,7 +102,7 @@ bot.onText(/^\/collect$/,async msg=>{
       is_user.bots.push("subtitle")
       await db.update("user_datas",{user:id},{bots:is_user.bots})
       found++
-      send_m(adminId,"commen user id : "+id)
+      send_m(adminId,"📝 Found user: "+id)
       continue
     }
   }catch(e){
@@ -112,7 +113,7 @@ bot.onText(/^\/collect$/,async msg=>{
 
 bot.onText(/^\/stop_col$/,async m=>{
   if(m.chat.id!=adminId)return
-  send_m(adminId,"collecting data is stopped")
+  send_m(adminId,"🛑 Data collection stopped")
   data_col =false
 })
 
@@ -120,7 +121,7 @@ bot.onText(/^\/count$/,async(msg)=>{
   if(msg.chat.id!=adminId)return
   
   let count=await db.count("user_datas",{bots:{$in:["subtitle"]}})
-  send_m(adminId,"total users : "+count)
+  send_m(adminId,"👥 Total munax bot users: "+count)
 })
 
 bot.onText(/^\/notify/,async msg=>{
@@ -146,13 +147,13 @@ bot.onText(/^\/notify/,async msg=>{
     else users=await db.get("user_datas",{bots:{$in:["subtitle"]}})
     console.log(img,text);
     var i=0
-    let m=await send_m(adminId,"message send notification")
+    let m=await send_m(adminId,"📨 Broadcast started...")
     let time=Date.now()/1000
     let len=users.length
     for(let {user} of users){
       if(!(i%25)){
         var nt=Date.now()/1000
-        edit(`total message to be sended : ${users.length}\ntotal message sended : ${i}\nest time to  be done: ${Math.round((((nt-time)/i*len))-(nt-time))} sec`,{chat_id:adminId,message_id:m.message_id})
+        edit(`📊 Broadcast progress:\nTotal: ${len}\nSent: ${i}\nETA: ${Math.round((((nt-time)/i*len))-(nt-time))}s`,{chat_id:adminId,message_id:m.message_id})
       }
       if(img){
         sendPhoto(user,img,{reply_markup:btn, caption:text,parse_mode:"html"})
@@ -162,8 +163,8 @@ bot.onText(/^\/notify/,async msg=>{
       await sleep(50)
     }
     var nt=Date.now()/1000
-    edit(`total message to be sended : ${users.length}\ntotal message sended : ${i}\nest time to  be done: ${Math.round((((nt-time)/i*len))-(nt-time))} sec`,{chat_id:adminId,message_id:m.message_id})
-    send_m(adminId,"message sending ended")
+    edit(`✅ Broadcast completed!\nSent: ${i} messages`,{chat_id:adminId,message_id:m.message_id})
+    send_m(adminId,"📬 Broadcast finished")
     
   } catch (e) {
     console.log(e);
@@ -174,7 +175,7 @@ bot.onText(/^\/notify/,async msg=>{
 bot.on("photo",async msg=>{
   if(adminId==msg.chat.id){
     let url=await bot.getFileLink(msg.photo.pop().file_id)
-    send_m(adminId, url+"\n\n"+msg.photo.pop().file_id+"\n\nokey")
+    send_m(adminId, url+"\n\n"+msg.photo.pop().file_id+"\n\n✅")
   }
 })
 
@@ -193,15 +194,13 @@ const sleep=(time=>{
   })
 })
 
-
-
 /*telegram updates handler webhook handler*/
-router.post("/"+token, (req, res)=> {
+// 👇 Updated to use single webhook endpoint
+router.post("/webhook", (req, res)=> {
   try{
-  res.sendStatus(200)
-  bot.processUpdate(req.body)
-  refresh_server()
-  return
+    res.sendStatus(200)
+    bot.processUpdate(req.body)
+    return
   }catch(e){
     console.log(e);
     return 
