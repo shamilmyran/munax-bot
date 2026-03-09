@@ -14,7 +14,7 @@ const emit = require("../../translate-bot/src/batch_translate").emit;
 const settings = require("../../translate-bot/src/settings");
 const advertise = require("../../translate-bot/src/advertise");
 const { encode: htmlEnt } = require("html-entities");
-const { bot, groupId } = require("../config"); // Use unified config
+const { bot, groupId } = require("../../config");
 
 // Base URL helper
 const baseUrl = () => process.env.RENDER_EXTERNAL_URL || process.env.HEROKU_URL || "http://localhost:3000";
