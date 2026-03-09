@@ -32,7 +32,6 @@ const hbs=exphbs.create({
   helpers:require("./helper/hbs_helper")
 })
 
-
 var app = express();
 
 (async()=>{
@@ -44,14 +43,11 @@ else console.log("database didn't connected");
 var usersRouter = require('./routes/users');
 var adminRouter = require("./routes/admin")
 
-//let instagramRouter=require("./bot/instagram-bot/bot")
+// Removed instagram-bot, youtube-subtitle, zip-bot, pdf-bot
 
 var translateRouter = require("./bot/translate-bot/bot")
 var translateApi=require("./bot/translate-bot/api")
 var groupTranslateRouter=require("./bot/group-translate/bot")
-var youtubeSubtitle=require("./bot/youtube-subtitle/bot")
-var zipRouter=require("./bot/zip-bot/bot")
-var pdfRouter=require("./bot/pdf-bot/bot")
 var subtitleRouter = require("./bot/subtitle-bot/bot")
 var subtitleApi=require("./bot/subtitle-bot/api")
 
@@ -91,31 +87,18 @@ app.use(rateLimit({
   }
 }))
 
-
 app.use('/', usersRouter);
 app.use("/admin", adminRouter)
 app.use("/ip",(req,res)=>{
   let ip=req.ip
-    
-  //let match=telegramIP.filter(x=>x.match(RegExp(`^${ip.replace(/\./g,"\\.")}`)))
   res.json({ip})
 })
-
-
 
 app.use("/translate", translateRouter)
 app.use("/api/translate",translateApi)
 app.use("/translate/group",groupTranslateRouter)
-app.use("/ytsubs",youtubeSubtitle)
-//app.use("/instagram",instagramRouter)
-app.post("/instagram/5799384482:AAF8NF1Jyr4YVu9DqyH7-sP_BnyPBj8IfkA",(req,res)=>{
-  res.sendStatus(200)
-})
-app.use("/subtitle", subtitleRouter)
-app.use("/pdf",pdfRouter)
 app.use("/subtitle", subtitleRouter)
 app.use("/api/subtitle",subtitleApi)
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -132,7 +115,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 })()
 module.exports = app;
