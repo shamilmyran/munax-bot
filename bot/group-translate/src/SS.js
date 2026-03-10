@@ -1,4 +1,4 @@
-const { bot, groupId } = require("../config"); // 👈 Changed from "./config" to "../config"
+const { bot, groupId } = require("../../config"); Changed from "./config" to "../config"
 const { sendMessage, editMessage, answerCallback, editMarkup, deleteMsg } = require("./messenger");
 const got = require("got");
 const settings = require("./settings");
