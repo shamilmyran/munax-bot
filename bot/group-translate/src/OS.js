@@ -1,11 +1,11 @@
-const {bot,groupId,tmdb_key}=require("./config"),
-{sendMessage,editMessage,answerCallback,editMarkup,deleteMsg}=require("./messenger"),
-got=require("got"),
-settings=require("./settings"),
-db=require("../../../helper/db"),
-root=process.cwd()+"/bot/group-translate",
-zlib=require("zlib"),
-fs=require("fs")
+const { bot, groupId, tmdb_key } = require("../../config");
+const { sendMessage, editMessage, answerCallback, editMarkup, deleteMsg } = require("./messenger");
+const got = require("got");
+const settings = require("./settings");
+const db = require("../../../helper/db");
+const root = process.cwd() + "/bot/group-translate";
+const zlib = require("zlib");
+const fs = require("fs");
 
 async function search(key,lang){
   try {
