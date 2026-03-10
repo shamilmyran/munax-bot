@@ -1,9 +1,9 @@
-const {bot,botuser}=require("./config"),
-{sendMessage,editMessage,answerCallback,editMarkup,sendDocument,deleteMsg}=require("./messenger"),
-got=require("got"),
-settings=require("./settings"),
-root=process.cwd()+"/bot/group-translate",
-fs=require("fs")
+const { bot, botuser } = require("../../config");
+const { sendMessage, editMessage, answerCallback, editMarkup, sendDocument, deleteMsg } = require("./messenger");
+const got = require("got");
+const settings = require("./settings");
+const root = process.cwd() + "/bot/group-translate";
+const fs = require("fs");
 
 async function search(query=null,page=1){
   try {
