@@ -41,7 +41,7 @@
     "node-subscene-api": "^1.1.1",
     "node-telegram-bot-api": "^0.54.0",
     "node-unrar-js": "^2.0.0",
-    "opensubtitles-client": "^2.5.0",
+    "opensubtitles-client": "^3.0.0",   // or latest
     "querystring": "^0.2.1",
     "rate-limit-mongo": "^2.3.2",
     "razorpay": "^2.8.0",
