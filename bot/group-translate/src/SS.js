@@ -1,10 +1,10 @@
-const {bot, groupId}=require("./config"),
-{sendMessage,editMessage, answerCallback,editMarkup,deleteMsg}=require("./messenger"),
-got=require("got"),
-settings=require("./settings"),
-fs=require("fs"),
-db=require("../../../helper/db"),
-root=process.cwd()+"/bot/group-translate";
+const { bot, groupId } = require("../config"); // 👈 Changed from "./config" to "../config"
+const { sendMessage, editMessage, answerCallback, editMarkup, deleteMsg } = require("./messenger");
+const got = require("got");
+const settings = require("./settings");
+const fs = require("fs");
+const db = require("../../../helper/db");
+const root = process.cwd() + "/bot/group-translate";
 
 
 async function search(key,page){
