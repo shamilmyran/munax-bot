@@ -1,7 +1,6 @@
 {
   "name": "munax-bot",
   "version": "1.0.0",
-  "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
@@ -31,23 +30,26 @@
     "hpagent": "^1.2.0",
     "html-entities": "^2.3.3",
     "http-errors": "^1.8.1",
+    "instagram-id-to-url-segment": "^0.0.0",
+    "instagram-private-api": "^1.45.3",
     "is-url": "^1.2.4",
     "jszip": "^3.10.1",
     "langs": "^2.0.0",
     "mime-types": "^2.1.35",
-    "mongodb": "^5.9.2",
+    "mongodb": "^4.2.2",
     "morgan": "^1.10.0",
     "node-gyp": "^9.3.1",
     "node-subscene-api": "^1.1.1",
     "node-telegram-bot-api": "^0.54.0",
     "node-unrar-js": "^2.0.0",
-    "opensubtitles-client": "^3.0.0",   // or latest
+    "opensubtitles-client": "^3.0.0",   // ← REMOVE THE COMMENT (everything after the comma)
     "querystring": "^0.2.1",
     "rate-limit-mongo": "^2.3.2",
     "razorpay": "^2.8.0",
     "request-promise-native": "^1.0.9",
     "socket.io": "^4.5.1",
     "subtitle-converter": "^3.0.11",
+    "telegram": "^2.15.15",
     "yt-xml2srt": "^1.3.0",
     "ytdl-core": "^4.10.0"
   },
